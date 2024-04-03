@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1051814485400",
+    "firebase_url": "https://horsebooking-54bbe-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "horsebooking-54bbe",
+    "storage_bucket": "horsebooking-54bbe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051814485400:android:c7539804af6d6f04185fed",
+        "android_client_info": {
+          "package_name": "com.example.horsebooking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMBaq52-eEyy_wMCDnTlx3gilW-gXRyfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
