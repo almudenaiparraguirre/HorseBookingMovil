@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun registrarse(view: View) {
-        val email = "aaaaaaa@gmail.com"
+        val email = "aaLMUDENAa@gmail.com"
         val contrasena = "Abcde123"
 
         firebaseAuth.createUserWithEmailAndPassword(email, contrasena)
