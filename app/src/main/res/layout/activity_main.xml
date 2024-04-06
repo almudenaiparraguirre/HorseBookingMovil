@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/fondoInicio">
 
-    <Button
+    <!-- <Button
         android:id="@+id/buttonRegistrarUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,6 +16,75 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="registrarse"/>
+        android:onClick="registrarse"/> -->
+
+    <ImageView
+        android:id="@+id/imageLogoRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="50dp"
+        android:src="@mipmap/img_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/textViewTituloRegistrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textViewTituloRegistrate"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageLogoRegistro"/>
+
+    <EditText
+        android:id="@+id/inputRegistroEmail"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Email"
+        android:background="@color/white"
+        android:layout_margin="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloRegistrate"/>
+
+    <EditText
+        android:id="@+id/inputRegistroNombre"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Nombre completo"
+        android:background="@color/white"
+        android:layout_margin="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputRegistroEmail"/>
+
+    <EditText
+        android:id="@+id/inputRegistroContrasena"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Contraseña"
+        android:background="@color/white"
+        android:layout_margin="20dp"
+        android:inputType="textPassword"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputRegistroNombre"/>
+
+    <EditText
+        android:id="@+id/inputRegistroRepetirContrasena"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Repetir contraseña"
+        android:background="@color/white"
+        android:layout_margin="20dp"
+        android:inputType="textPassword"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputRegistroContrasena"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HorseBooking</string>
+    <string name="textViewTituloRegistrate">¡Regístrate para disfrutar de nuestra escuela!</string>
 </resources>

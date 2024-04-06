@@ -16,6 +16,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
 
+    /**
+     * @author Almudena Iparraguirre Castillo
+     * @param savedInstanceState
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,8 +28,12 @@ class MainActivity : AppCompatActivity() {
         databaseReference = FirebaseDatabase.getInstance().reference
     }
 
+    /**
+     * @author Almudena Iparraguirre Castillo
+     * @param view
+     */
     fun registrarse(view: View) {
-        val email = "aaLMUDENAa@gmail.com"
+        val email = "almudena@gmail.com"
         val contrasena = "Abcde123"
 
         firebaseAuth.createUserWithEmailAndPassword(email, contrasena)
