@@ -7,17 +7,6 @@
     tools:context=".MainActivity"
     android:background="@color/fondoInicio">
 
-    <!-- <Button
-        android:id="@+id/buttonRegistrarUsuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Registrar usuario"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="registrarse"/> -->
-
     <ImageView
         android:id="@+id/imageLogoRegistro"
         android:layout_width="wrap_content"

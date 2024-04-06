@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * @author Almudena Iparraguirre Castillo
      * @param savedInstanceState
+     * Función que se ejecuta al iniciar el MainActivity
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     /**
      * @author Almudena Iparraguirre Castillo
      * @param view
+     * Función que permite al usuario registrarse e implementa sus
+     * datos en la base de datos de Firebase
      */
     fun registrarse(view: View) {
         val email = "almudena@gmail.com"
