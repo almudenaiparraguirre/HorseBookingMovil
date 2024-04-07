@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".iniciarSesionActivity"
     android:background="@color/fondoInicio">
 
     <ImageView
@@ -18,10 +18,10 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/textViewTituloRegistrate"
+        android:id="@+id/textViewIniciarSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textViewTituloRegistrate"
+        android:text="@string/textViewIniciaSesion"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:fontFamily="@font/inriasans_bold"
@@ -41,7 +41,7 @@
         android:layout_margin="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloRegistrate"/>
+        app:layout_constraintTop_toBottomOf="@+id/textViewIniciarSesion"/>
 
     <EditText
         android:id="@+id/inputRegistroNombre"
