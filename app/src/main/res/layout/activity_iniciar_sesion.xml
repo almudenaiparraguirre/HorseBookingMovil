@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/imageLogoRegistro"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="350dp"
         android:maxWidth="50dp"
         android:src="@mipmap/img_logo"
@@ -37,22 +37,11 @@
         android:layout_height="50dp"
         android:hint="Email"
         android:background="@color/white"
-        android:fontFamily="@font/inriasans_light"
+        android:fontFamily="@font/inriasans_regular"
         android:layout_margin="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewIniciarSesion"/>
-
-    <EditText
-        android:id="@+id/inputRegistroNombre"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Nombre completo"
-        android:background="@color/white"
-        android:layout_margin="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputRegistroEmail"/>
 
     <EditText
         android:id="@+id/inputRegistroContrasena"
@@ -62,27 +51,21 @@
         android:background="@color/white"
         android:layout_margin="20dp"
         android:inputType="textPassword"
+        android:fontFamily="@font/inriasans_regular"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputRegistroNombre"/>
-
-    <EditText
-        android:id="@+id/inputRegistroRepetirContrasena"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Repetir contraseña"
-        android:background="@color/white"
-        android:layout_margin="20dp"
-        android:inputType="textPassword"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputRegistroContrasena"/>
+        app:layout_constraintTop_toBottomOf="@+id/inputRegistroEmail"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/inriasans_regular"
+        android:text="Iniciar sesión"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputRegistroRepetirContrasena"/>
+        app:layout_constraintTop_toBottomOf="@+id/inputRegistroContrasena"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
