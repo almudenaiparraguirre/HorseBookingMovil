@@ -4,6 +4,7 @@ import com.google.firebase.database.DatabaseReference
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.FirebaseApp
@@ -15,6 +16,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
+    private lateinit var inputEmailUsuario: EditText
+    private lateinit var inputContrasenaUsuario: EditText
+    private lateinit var inputNombreUsuario: EditText
 
     /**
      * @author Almudena Iparraguirre Castillo
@@ -27,6 +31,9 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this@MainActivity)
         firebaseAuth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().reference
+        inputEmailUsuario = findViewById(R.id.inputRegistroEmail)
+        inputContrasenaUsuario = findViewById(R.id.inputRegistroContrasena)
+        inputNombreUsuario = findViewById(R.id.inputRegistroNombre)
     }
 
     /**
@@ -36,10 +43,8 @@ class MainActivity : AppCompatActivity() {
      * datos en la base de datos de Firebase
      */
     fun registrarse(view: View) {
-        val email = "almudena@gmail.com"
-        val contrasena = "Abcde123"
 
-        firebaseAuth.createUserWithEmailAndPassword(email, contrasena)
+        firebaseAuth.createUserWithEmailAndPassword(inputEmailUsuario.text.toString(), inputContrasenaUsuario.text.toString())
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user: FirebaseUser? = firebaseAuth.currentUser
@@ -49,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                     userId?.let {
                         val userData = HashMap<String, Any>()
                         userData["email"] = email
+                        userData["nombre"] = inputNombreUsuario.text.toString()
                         databaseReference.child("usuarios").child(userId).setValue(userData)
                             .addOnSuccessListener {
                                 Toast.makeText(

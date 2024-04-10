@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".iniciarSesionActivity"
+    tools:context=".IniciarSesionActivity"
     android:background="@color/fondoInicio">
 
     <ImageView
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Email"
-        android:background="@color/white"
+        android:background="@drawable/forma_input_texts"
         android:fontFamily="@font/inriasans_regular"
         android:layout_margin="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Contraseña"
-        android:background="@color/white"
+        android:background="@drawable/forma_input_texts"
         android:layout_margin="20dp"
         android:inputType="textPassword"
         android:fontFamily="@font/inriasans_regular"
@@ -62,8 +62,8 @@
         android:fontFamily="@font/inriasans_regular"
         android:text="Iniciar sesión"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/black"
+        android:backgroundTint="@color/fondoBoton"
+        android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputRegistroContrasena"/>
