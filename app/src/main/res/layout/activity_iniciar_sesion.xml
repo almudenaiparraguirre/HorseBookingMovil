@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/imageLogoRegistro"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="350dp"
         android:maxWidth="50dp"
-        android:src="@mipmap/img_logo"
+        android:src="@mipmap/img_logo_photoroom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="@string/textViewIniciaSesion"
         android:textColor="@color/white"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:fontFamily="@font/inriasans_bold"
         android:textAlignment="center"
         android:textStyle="bold"
@@ -35,10 +35,11 @@
         android:id="@+id/inputRegistroEmail"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Email"
+        android:hint="@string/email"
         android:background="@drawable/forma_input_texts"
         android:fontFamily="@font/inriasans_regular"
         android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewIniciarSesion"/>
@@ -47,7 +48,7 @@
         android:id="@+id/inputRegistroContrasena"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Contraseña"
+        android:hint="@string/contrasena"
         android:background="@drawable/forma_input_texts"
         android:layout_margin="20dp"
         android:inputType="textPassword"
@@ -57,15 +58,28 @@
         app:layout_constraintTop_toBottomOf="@+id/inputRegistroEmail"/>
 
     <Button
+        android:id="@+id/botonIniciarSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inriasans_regular"
-        android:text="Iniciar sesión"
+        android:text="@string/iniciar_sesion"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/fondoBoton"
         android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputRegistroContrasena"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/noTienesCuenta"
+        android:textColor="@color/fondoBoton"
+        android:textAlignment="center"
+        android:fontFamily="@font/inriasans_bold"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/botonIniciarSesion"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

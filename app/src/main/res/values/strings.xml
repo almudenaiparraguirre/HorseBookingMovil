@@ -2,4 +2,8 @@
     <string name="app_name">HorseBooking</string>
     <string name="textViewTituloRegistrate">¡Regístrate para disfrutar de nuestra escuela!</string>
     <string name="textViewIniciaSesion">¡Inicia sesión!</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="email">Email</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="noTienesCuenta">No tienes una cuenta? Registrate para disfrutar de nuestros servicios!</string>
 </resources>
