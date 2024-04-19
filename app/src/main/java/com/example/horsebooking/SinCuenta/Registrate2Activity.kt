@@ -1,6 +1,5 @@
-package com.example.horsebooking
+package com.example.horsebooking.SinCuenta
 
-import IniciarSesionActivity
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +9,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.horsebooking.R
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -22,7 +22,11 @@ class Registrate2Activity : AppCompatActivity() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var inputEmailUsuario: EditText
     private lateinit var inputRegistroApellidos: EditText
+    private lateinit var inputRegistroFechaNacimiento: EditText
+    private lateinit var inputRegistroDireccion: EditText
     private lateinit var inputRegistroContrasena: EditText
+    private lateinit var inputRegistroRepetirContrasena: EditText
+    private lateinit var mensajeError: TextView
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +35,12 @@ class Registrate2Activity : AppCompatActivity() {
         FirebaseApp.initializeApp(this@Registrate2Activity)
         firebaseAuth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().reference
+        inputEmailUsuario = findViewById(R.id.inputRegistroEmail)
+        inputRegistroFechaNacimiento = findViewById(R.id.inputRegistroFechaNacimiento)
+        inputRegistroDireccion = findViewById(R.id.inputRegistroDireccion)
         inputRegistroContrasena = findViewById(R.id.inputRegistroContrasenaUsuario)
+        inputRegistroRepetirContrasena = findViewById(R.id.inputRegistroRepetirContrasenaUsuario)
+        mensajeError = findViewById(R.id.mensajeError)
     }
 
     /**
@@ -49,8 +58,11 @@ class Registrate2Activity : AppCompatActivity() {
                     val userId = email?.replace(".", ",")
                     userId?.let {
                         val userData = HashMap<String, Any>()
-                        userData["email"] = email
+                        userData["email"] = inputEmailUsuario.text.toString()
                         userData["nombre"] = inputRegistroContrasena.text.toString()
+                        userData["apellidos"] = inputRegistroApellidos.text.toString()
+                        userData["fechaNacimiento"] = inputRegistroFechaNacimiento.text.toString()
+                        userData["direccion"] = inputRegistroDireccion.text.toString()
                         databaseReference.child("usuarios").child(userId).setValue(userData)
                             .addOnSuccessListener {
                                 Toast.makeText(
@@ -84,45 +96,46 @@ class Registrate2Activity : AppCompatActivity() {
      * Función que valida los campos del registro introducidos por el usuario
      * @param view */
     fun comprobarCampos(view: View){
-        //val mediaPlayer: MediaPlayer = MediaPlayer.create(this, R.raw.sonido_cuatro)
-        //mediaPlayer.start()
-        // 1. Obtener los valores ingresados en los campos de correo y contraseña
-        val emailTextView = findViewById<TextView>(R.id.inputRegistroEmail)
-        val email = emailTextView.text.toString().lowercase()
-        val nombreTextView = findViewById<TextView>(R.id.inputRegistroNombre)
-        val nombre = nombreTextView.text.toString()
+        if (!::inputEmailUsuario.isInitialized) {
+            mensajeError.text = "El campo de email no ha sido inicializado"
+            return
+        }
 
-        // 2. Validar los campos
-        if (email.isEmpty() || inputRegistroApellidos.text.isEmpty()) {
+        // Validar que todos los campos estén completos
+        if (inputRegistroFechaNacimiento.text.isEmpty() || inputRegistroDireccion.text.isEmpty()
+            || inputRegistroContrasena.text.isEmpty() || inputRegistroRepetirContrasena.text.isEmpty()) {
             Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
-            //mensajeError.text = "Por favor, completa todos los campos"
+            mensajeError.text = "Por favor, completa todos los campos"
             return
         }
 
-        // 3. Validar el formato de correo electrónico
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Formato de correo electrónico incorrecto", Toast.LENGTH_SHORT)
-                .show()
-//            mensajeError.text = "Formato de correo electrónico incorrecto"
+        // Validar que las contraseñas coincidan
+        val contraseña = inputRegistroContrasena.text.toString()
+        val repetirContraseña = inputRegistroRepetirContrasena.text.toString()
+        if (contraseña != repetirContraseña) {
+            Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+            mensajeError.text = "Las contraseñas no coinciden"
             return
         }
 
-        // 4. Validar la longitud y composición de la contraseña
-        /* if (!validarContraseña(contraseña)) {
-             Toast.makeText(
-                 this,
-                 "La contraseña debe tener al menos 8 caracteres, 1 minúscula, 1 mayúscula y 1 número",
-                 Toast.LENGTH_SHORT
-             ).show()
-             mensajeError.text = "La contraseña debe tener al menos 8 caracteres, 1 minúscula, 1 mayúscula y 1 número"
-             return
-         }
- */
-        // 5. Llamar a una función para registrar al usuario en Firebase
+        // Validar la longitud y composición de la contraseña
+        if (!validarContraseña(contraseña)) {
+            Toast.makeText(
+                this,
+                "La contraseña debe tener al menos 8 caracteres, 1 minúscula, 1 mayúscula y 1 número",
+                Toast.LENGTH_SHORT
+            ).show()
+            //mensajeError.text = "La contraseña debe tener al menos 8 caracteres, 1 minúscula, 1 mayúscula y 1 número"
+            return
+        }
+
+        // Llamar a una función para registrar al usuario en Firebase
         val intent = Intent(this@Registrate2Activity, IniciarSesionActivity::class.java)
         startActivity(intent)
         finish()
+        registrarUsuarioEnFirebase()
     }
+
 
     /**
      * @author Almudena Iparraguirre Castillo

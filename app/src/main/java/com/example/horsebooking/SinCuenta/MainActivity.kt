@@ -1,19 +1,17 @@
-package com.example.horsebooking
+package com.example.horsebooking.SinCuenta
 
-import IniciarSesionActivity
 import android.annotation.SuppressLint
 import android.content.Intent
 import com.google.firebase.database.DatabaseReference
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.horsebooking.R
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
@@ -86,6 +84,10 @@ class MainActivity : AppCompatActivity() {
 */
         // 5. Llamar a una función para registrar al usuario en Firebase
         val intent = Intent(this@MainActivity, Registrate2Activity::class.java)
+        intent.putExtra("email", inputEmailUsuario.text.toString())
+        intent.putExtra("nombre", inputNombreUsuario.text.toString())
+        intent.putExtra("apellidos", inputRegistroApellidos.text.toString())
+        intent.putExtra("telefono", inputRegistroNumeroTelefono.text.toString())
         startActivity(intent)
         finish()
     }

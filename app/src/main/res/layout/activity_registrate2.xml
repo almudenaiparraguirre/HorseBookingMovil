@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Registrate2Activity"
+    tools:context=".SinCuenta.Registrate2Activity"
     android:background="@color/fondoInicio">
 
     <ImageView
@@ -29,6 +29,17 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageLogoRegistro"/>
+
+   <TextView
+       android:id="@+id/textViewError"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="10dp"
+       android:textSize="15dp"
+       android:textColor="@color/error"
+       app:layout_constraintLeft_toLeftOf="parent"
+       app:layout_constraintRight_toRightOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/textViewTituloRegistrate"/>
 
     <TextView
         android:id="@+id/mensajeError"
@@ -56,7 +67,7 @@
         android:padding="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloRegistrate" />
+        app:layout_constraintTop_toBottomOf="@+id/mensajeError" />
 
     <EditText
         android:id="@+id/inputRegistroDireccion"

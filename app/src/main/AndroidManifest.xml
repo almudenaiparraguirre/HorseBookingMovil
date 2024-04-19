@@ -16,10 +16,10 @@
             android:name=".PerfilUsuarioActivity"
             android:exported="false" />
         <activity
-            android:name=".Registrate2Activity"
+            android:name=".SinCuenta.Registrate2Activity"
             android:exported="false" />
         <activity
-            android:name="IniciarSesionActivity"
+            android:name=".SinCuenta.IniciarSesionActivity"
             android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".SinCuenta.MainActivity"
             android:exported="false" />
     </application>
 

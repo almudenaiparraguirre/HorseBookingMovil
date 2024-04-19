@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.VideoView
+import com.example.horsebooking.SinCuenta.MainActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
