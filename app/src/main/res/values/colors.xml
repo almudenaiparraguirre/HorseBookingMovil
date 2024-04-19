@@ -5,4 +5,5 @@
     <color name="fondoInicio">#7BB8B1</color>
     <color name="fondoBotones">#F8E9E9</color>
     <color name="fondoBoton">#19535F</color>
+    <color name="error">#A32117</color>
 </resources>

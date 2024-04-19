@@ -66,6 +66,7 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/fondoBoton"
         android:textColor="@color/white"
+        android:onClick="iniciarSesion"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputRegistroContrasena"/>
