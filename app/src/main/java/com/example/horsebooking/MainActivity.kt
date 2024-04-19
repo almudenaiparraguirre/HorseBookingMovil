@@ -1,5 +1,8 @@
 package com.example.horsebooking
 
+import IniciarSesionActivity
+import android.annotation.SuppressLint
+import android.content.Intent
 import com.google.firebase.database.DatabaseReference
 import android.os.Bundle
 import android.util.Log
@@ -18,8 +21,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private lateinit var inputEmailUsuario: EditText
-    private lateinit var inputContrasenaUsuario: EditText
+    private lateinit var inputRegistroApellidos: EditText
     private lateinit var inputNombreUsuario: EditText
+    private lateinit var inputRegistroNumeroTelefono: EditText
     private lateinit var mensajeError: TextView
 
     /**
@@ -27,6 +31,7 @@ class MainActivity : AppCompatActivity() {
      * Función que se ejecuta al iniciar el MainActivity
      * @param savedInstanceState
      */
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,54 +39,10 @@ class MainActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().reference
         inputEmailUsuario = findViewById(R.id.inputRegistroEmail)
-        inputContrasenaUsuario = findViewById(R.id.inputRegistroContrasena)
         inputNombreUsuario = findViewById(R.id.inputRegistroNombre)
+        inputRegistroApellidos = findViewById(R.id.inputRegistroApellidos)
+        inputRegistroNumeroTelefono = findViewById(R.id.inputRegistroNumeroTelefono)
         mensajeError = findViewById(R.id.mensajeError)
-    }
-
-    /**
-     * @author Almudena Iparraguirre Castillo
-     * Función que permite al usuario registrarse e implementa sus
-     * datos en la base de datos de Firebase
-     */
-    fun registrarUsuarioEnFirebase() {
-        firebaseAuth.createUserWithEmailAndPassword(inputEmailUsuario.text.toString(), inputContrasenaUsuario.text.toString())
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user: FirebaseUser? = firebaseAuth.currentUser
-                    val email = user?.email
-
-                    val userId = email?.replace(".", ",")
-                    userId?.let {
-                        val userData = HashMap<String, Any>()
-                        userData["email"] = email
-                        userData["nombre"] = inputNombreUsuario.text.toString()
-                        databaseReference.child("usuarios").child(userId).setValue(userData)
-                            .addOnSuccessListener {
-                                Toast.makeText(
-                                    this,
-                                    "Usuario registrado correctamente en Firebase",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            .addOnFailureListener { e ->
-                                Log.e("FirebaseDatabase", "Error al registrar el usuario en Firebase", e)
-                                Toast.makeText(
-                                    this,
-                                    "Error al registrar el usuario en Firebase",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                    }
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Error al registrar usuario: ${task.exception?.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.e("FirebaseAuth", "Error al registrar usuario", task.exception)
-                }
-            }
     }
 
     /**
@@ -93,14 +54,12 @@ class MainActivity : AppCompatActivity() {
         //mediaPlayer.start()
         // 1. Obtener los valores ingresados en los campos de correo y contraseña
         val emailTextView = findViewById<TextView>(R.id.inputRegistroEmail)
-        val contraseñaTextView = findViewById<TextView>(R.id.inputRegistroContrasena)
         val email = emailTextView.text.toString().lowercase()
-        val contraseña = contraseñaTextView.text.toString()
         val nombreTextView = findViewById<TextView>(R.id.inputRegistroNombre)
         val nombre = nombreTextView.text.toString()
 
         // 2. Validar los campos
-        if (email.isEmpty() || contraseña.isEmpty()) {
+        if (email.isEmpty() || inputRegistroApellidos.text.isEmpty() || inputRegistroNumeroTelefono.text.isEmpty() || inputNombreUsuario.text.isEmpty()) {
             Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
             mensajeError.text = "Por favor, completa todos los campos"
             return
@@ -115,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 4. Validar la longitud y composición de la contraseña
-        if (!validarContraseña(contraseña)) {
+       /* if (!validarContraseña(contraseña)) {
             Toast.makeText(
                 this,
                 "La contraseña debe tener al menos 8 caracteres, 1 minúscula, 1 mayúscula y 1 número",
@@ -124,18 +83,16 @@ class MainActivity : AppCompatActivity() {
             mensajeError.text = "La contraseña debe tener al menos 8 caracteres, 1 minúscula, 1 mayúscula y 1 número"
             return
         }
-
+*/
         // 5. Llamar a una función para registrar al usuario en Firebase
-        registrarUsuarioEnFirebase()
+        val intent = Intent(this@MainActivity, Registrate2Activity::class.java)
+        startActivity(intent)
+        finish()
     }
 
-    /**
-     * @author Almudena Iparraguirre Castillo
-     * Función que valida la contraseña introducida por el usuario
-     * @param contraseña
-     * @return Boolean */
-    fun validarContraseña(contraseña: String): Boolean {
-        val regex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}\$")
-        return regex.matches(contraseña)
+    fun volverInicioSesion(view: View){
+        val intent = Intent(this@MainActivity, IniciarSesionActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
