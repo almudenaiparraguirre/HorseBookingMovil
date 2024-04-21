@@ -46,53 +46,62 @@ class Registrate2Activity : AppCompatActivity() {
      * datos en la base de datos de Firebase
      */
     fun registrarUsuarioEnFirebase() {
-        intent.getStringExtra("email")?.let {
-            firebaseAuth.createUserWithEmailAndPassword(it, inputRegistroContrasena.text.toString())
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val user: FirebaseUser? = firebaseAuth.currentUser
-                        val email = user?.email
-                        val emailUsuario = intent.getStringExtra("email")
-                        val nombre = intent.getStringExtra("nombre")
-                        val apellidos = intent.getStringExtra("apellidos")
-                        val telefono = intent.getStringExtra("telefono")
+        val email = intent.getStringExtra("email")
+        firebaseAuth.createUserWithEmailAndPassword(
+            email.toString(),
+            inputRegistroContrasena.text.toString()
+        )
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user: FirebaseUser? = firebaseAuth.currentUser
+                    val emailUsuario = intent.getStringExtra("email")
+                    val nombre = intent.getStringExtra("nombre")
+                    val apellidos = intent.getStringExtra("apellidos")
+                    val telefono = intent.getStringExtra("telefono")
 
-                        val userId = emailUsuario?.replace(".", ",")
-                        userId?.let {
-                            val userData = HashMap<String, Any>()
-                            userData["email"] = emailUsuario.toString()
-                            userData["nombre"] = nombre.toString()
-                            userData["apellidos"] = apellidos.toString()
-                            userData["fechaNacimiento"] = inputRegistroFechaNacimiento.text.toString()
-                            userData["direccion"] = inputRegistroDireccion.text.toString()
-                            userData["telefono"] = telefono.toString()
-                            databaseReference.child("usuarios").child(userId).setValue(userData)
-                                .addOnSuccessListener {
-                                    Toast.makeText(
-                                        this,
-                                        "Usuario registrado correctamente en Firebase",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                .addOnFailureListener { e ->
-                                    Log.e("FirebaseDatabase", "Error al registrar el usuario en Firebase", e)
-                                    Toast.makeText(
-                                        this,
-                                        "Error al registrar el usuario en Firebase",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                        }
-                    } else {
-                        Toast.makeText(
-                            this,
-                            "Error al registrar usuario: ${task.exception?.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("FirebaseAuth", "Error al registrar usuario", task.exception)
+                    val userId = emailUsuario?.replace(".", ",")
+                    userId?.let {
+                        val userData = HashMap<String, Any>()
+                        userData["email"] = emailUsuario.toString()
+                        userData["nombre"] = nombre.toString()
+                        userData["apellidos"] = apellidos.toString()
+                        userData["fechaNacimiento"] = inputRegistroFechaNacimiento.text.toString()
+                        userData["direccion"] = inputRegistroDireccion.text.toString()
+                        userData["telefono"] = telefono.toString()
+                        databaseReference.child("usuarios").child(userId).setValue(userData)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    this,
+                                    "Usuario registrado correctamente en Firebase",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                val intent = Intent(this@Registrate2Activity, IniciarSesionActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e(
+                                    "FirebaseDatabase",
+                                    "Error al registrar el usuario en Firebase",
+                                    e
+                                )
+                                Toast.makeText(
+                                    this,
+                                    "Error al registrar el usuario en Firebase",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                     }
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Error al registrar usuario: ${task.exception?.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("FirebaseAuth", "Error al registrar usuario", task.exception)
                 }
-        }
+            }
     }
 
     /**
@@ -128,11 +137,9 @@ class Registrate2Activity : AppCompatActivity() {
             return
         }
 
+
         // Llamar a una función para registrar al usuario en Firebase
         registrarUsuarioEnFirebase()
-        val intent = Intent(this@Registrate2Activity, IniciarSesionActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 
     /**
