@@ -20,8 +20,6 @@ class Registrate2Activity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
-    private lateinit var inputEmailUsuario: EditText
-    private lateinit var inputRegistroApellidos: EditText
     private lateinit var inputRegistroFechaNacimiento: EditText
     private lateinit var inputRegistroDireccion: EditText
     private lateinit var inputRegistroContrasena: EditText
@@ -35,7 +33,6 @@ class Registrate2Activity : AppCompatActivity() {
         FirebaseApp.initializeApp(this@Registrate2Activity)
         firebaseAuth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().reference
-        inputEmailUsuario = findViewById(R.id.inputRegistroEmail)
         inputRegistroFechaNacimiento = findViewById(R.id.inputRegistroFechaNacimiento)
         inputRegistroDireccion = findViewById(R.id.inputRegistroDireccion)
         inputRegistroContrasena = findViewById(R.id.inputRegistroContrasenaUsuario)
@@ -49,46 +46,53 @@ class Registrate2Activity : AppCompatActivity() {
      * datos en la base de datos de Firebase
      */
     fun registrarUsuarioEnFirebase() {
-        firebaseAuth.createUserWithEmailAndPassword(inputEmailUsuario.text.toString(), inputRegistroContrasena.text.toString())
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user: FirebaseUser? = firebaseAuth.currentUser
-                    val email = user?.email
+        intent.getStringExtra("email")?.let {
+            firebaseAuth.createUserWithEmailAndPassword(it, inputRegistroContrasena.text.toString())
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        val user: FirebaseUser? = firebaseAuth.currentUser
+                        val email = user?.email
+                        val emailUsuario = intent.getStringExtra("email")
+                        val nombre = intent.getStringExtra("nombre")
+                        val apellidos = intent.getStringExtra("apellidos")
+                        val telefono = intent.getStringExtra("telefono")
 
-                    val userId = email?.replace(".", ",")
-                    userId?.let {
-                        val userData = HashMap<String, Any>()
-                        userData["email"] = inputEmailUsuario.text.toString()
-                        userData["nombre"] = inputRegistroContrasena.text.toString()
-                        userData["apellidos"] = inputRegistroApellidos.text.toString()
-                        userData["fechaNacimiento"] = inputRegistroFechaNacimiento.text.toString()
-                        userData["direccion"] = inputRegistroDireccion.text.toString()
-                        databaseReference.child("usuarios").child(userId).setValue(userData)
-                            .addOnSuccessListener {
-                                Toast.makeText(
-                                    this,
-                                    "Usuario registrado correctamente en Firebase",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            .addOnFailureListener { e ->
-                                Log.e("FirebaseDatabase", "Error al registrar el usuario en Firebase", e)
-                                Toast.makeText(
-                                    this,
-                                    "Error al registrar el usuario en Firebase",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                        val userId = emailUsuario?.replace(".", ",")
+                        userId?.let {
+                            val userData = HashMap<String, Any>()
+                            userData["email"] = emailUsuario.toString()
+                            userData["nombre"] = nombre.toString()
+                            userData["apellidos"] = apellidos.toString()
+                            userData["fechaNacimiento"] = inputRegistroFechaNacimiento.text.toString()
+                            userData["direccion"] = inputRegistroDireccion.text.toString()
+                            userData["telefono"] = telefono.toString()
+                            databaseReference.child("usuarios").child(userId).setValue(userData)
+                                .addOnSuccessListener {
+                                    Toast.makeText(
+                                        this,
+                                        "Usuario registrado correctamente en Firebase",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.e("FirebaseDatabase", "Error al registrar el usuario en Firebase", e)
+                                    Toast.makeText(
+                                        this,
+                                        "Error al registrar el usuario en Firebase",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                        }
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "Error al registrar usuario: ${task.exception?.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("FirebaseAuth", "Error al registrar usuario", task.exception)
                     }
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Error al registrar usuario: ${task.exception?.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.e("FirebaseAuth", "Error al registrar usuario", task.exception)
                 }
-            }
+        }
     }
 
     /**
@@ -96,11 +100,6 @@ class Registrate2Activity : AppCompatActivity() {
      * Función que valida los campos del registro introducidos por el usuario
      * @param view */
     fun comprobarCampos(view: View){
-        if (!::inputEmailUsuario.isInitialized) {
-            mensajeError.text = "El campo de email no ha sido inicializado"
-            return
-        }
-
         // Validar que todos los campos estén completos
         if (inputRegistroFechaNacimiento.text.isEmpty() || inputRegistroDireccion.text.isEmpty()
             || inputRegistroContrasena.text.isEmpty() || inputRegistroRepetirContrasena.text.isEmpty()) {
@@ -125,17 +124,16 @@ class Registrate2Activity : AppCompatActivity() {
                 "La contraseña debe tener al menos 8 caracteres, 1 minúscula, 1 mayúscula y 1 número",
                 Toast.LENGTH_SHORT
             ).show()
-            //mensajeError.text = "La contraseña debe tener al menos 8 caracteres, 1 minúscula, 1 mayúscula y 1 número"
+            mensajeError.text = "La contraseña debe tener al menos 8 caracteres, 1 minúscula, 1 mayúscula y 1 número"
             return
         }
 
         // Llamar a una función para registrar al usuario en Firebase
+        registrarUsuarioEnFirebase()
         val intent = Intent(this@Registrate2Activity, IniciarSesionActivity::class.java)
         startActivity(intent)
         finish()
-        registrarUsuarioEnFirebase()
     }
-
 
     /**
      * @author Almudena Iparraguirre Castillo

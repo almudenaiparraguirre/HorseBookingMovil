@@ -20,23 +20,19 @@ class IniciarSesionActivity : AppCompatActivity() {
     }
 
     fun iniciarSesion(view: View) {
-        val email = "almudenaiparraguirre@gmail.com" // Obtener el correo electrónico del EditText
-        val contrasena = "Abcde123" // Obtener la contraseña del EditText
+        val email = "almudenaiparraguirre@gmail.com"
+        val contrasena = "Abcde123"
 
-        // Verificar si el usuario existe
         firebaseAuth.fetchSignInMethodsForEmail(email)
             .addOnCompleteListener(OnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val result = task.result
                     if (result.signInMethods!!.size > 0) {
-                        // El usuario existe, intenta iniciar sesión
                         signIn(email, contrasena)
                     } else {
-                        // El usuario no existe, mostrar un mensaje de error
                         Toast.makeText(baseContext, "El usuario no existe", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    // Error al verificar si el usuario existe
                     Log.e("IniciarSesion", "Error al verificar usuario: ${task.exception?.message}")
                     Toast.makeText(baseContext, "Error al verificar usuario", Toast.LENGTH_SHORT).show()
                 }
