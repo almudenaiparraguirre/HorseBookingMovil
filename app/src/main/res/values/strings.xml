@@ -5,6 +5,6 @@
     <string name="iniciar_sesion">Iniciar sesión</string>
     <string name="email">Email</string>
     <string name="contrasena">Contraseña</string>
-    <string name="noTienesCuenta">No tienes una cuenta? Registrate para disfrutar de nuestros servicios!</string>
+    <string name="noTienesCuenta">¿No tienes una cuenta? ¡Registrate para disfrutar de nuestros servicios!</string>
     <string name="irInicioSesion"><u>Ir al inicio de sesión</u></string>
 </resources>

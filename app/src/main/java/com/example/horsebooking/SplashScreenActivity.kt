@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.VideoView
+import com.example.horsebooking.SinCuenta.IniciarSesionActivity
 import com.example.horsebooking.SinCuenta.MainActivity
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -20,7 +21,7 @@ class SplashScreenActivity : AppCompatActivity() {
         val videoUri = Uri.parse("android.resource://" + packageName + "/" + R.raw.splash_screen)
         videoViewSplash.setVideoURI(videoUri)
         videoViewSplash.setOnCompletionListener { mp: MediaPlayer? ->
-            val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
+            val intent = Intent(this@SplashScreenActivity, IniciarSesionActivity::class.java)
             startActivity(intent)
             finish() // Finaliza la actividad del splash screen
         }

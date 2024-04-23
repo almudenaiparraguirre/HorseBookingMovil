@@ -1,9 +1,14 @@
 package com.example.horsebooking.SinCuenta
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.horsebooking.PerfilUsuarioActivity
@@ -18,15 +23,45 @@ import com.google.firebase.database.ValueEventListener
 class IniciarSesionActivity : AppCompatActivity() {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var textViewNoTienesCuenta: TextView
+    private lateinit var editTextEmailUsuario: EditText
+    private lateinit var editTextContrasenaUsuario: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_iniciar_sesion)
+        textViewNoTienesCuenta = findViewById(R.id.textViewNoTienesCuenta)
+        editTextEmailUsuario = findViewById(R.id.inputRegistroEmail)
+        editTextContrasenaUsuario = findViewById(R.id.inputRegistroContrasena)
+
+        val texto = textViewNoTienesCuenta.text.toString()
+        val spannableString = SpannableString(texto)
+        val indiceInicio = texto.indexOf("¡Registrate")
+        val indiceFin = texto.indexOf("servicios!") + "servicios!".length
+
+        val spanClicable = object: ClickableSpan(){
+            override fun onClick(widget: View) {
+                val intent = Intent(this@IniciarSesionActivity, MainActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        spannableString.setSpan(spanClicable, indiceInicio, indiceFin, 0)
+        textViewNoTienesCuenta.setTextColor(resources.getColor(R.color.white))
+        textViewNoTienesCuenta.text = spannableString
+        textViewNoTienesCuenta.setOnClickListener{
+            spanClicable.onClick(it)
+        }
+        textViewNoTienesCuenta.movementMethod = android.text.method.LinkMovementMethod.getInstance()
     }
 
+    /** @author Almudena Iparraguirre Castillo
+     * Función que verifica las credenciales introducidas por el usuario
+     * y si son correctas inicia sesión, en caso de estar incorrectas lanza un
+     * mensaje de aviso
+     * @param view */
     fun iniciarSesion(view: View) {
-        val email = "a@gmail.com"
-        val contrasena = "Abcde123"
+        val email = editTextEmailUsuario.text.toString()
+        val contrasena = editTextContrasenaUsuario.text.toString()
 
         val databaseReference = FirebaseDatabase.getInstance().reference.child("usuarios")
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -48,7 +83,11 @@ class IniciarSesionActivity : AppCompatActivity() {
         })
     }
 
-
+    /**
+     * @author Almudena Iparraguirre Castillo
+     * Función que inicia sesión del usuario en Firebase
+     * @param email
+     * @param contrasena */
     private fun signIn(email: String, contrasena: String) {
         firebaseAuth.signInWithEmailAndPassword(email, contrasena)
             .addOnCompleteListener(this) { task ->
@@ -62,6 +101,7 @@ class IniciarSesionActivity : AppCompatActivity() {
                     intent.putExtra("email", email)
                     // Iniciar la actividad
                     startActivity(intent)
+                    finish()
                     // Aquí irías a la segunda actividad
                     Log.d("IniciarSesion", "Inicio de sesión exitoso")
                 } else {

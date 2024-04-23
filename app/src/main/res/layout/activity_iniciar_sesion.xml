@@ -72,10 +72,11 @@
         app:layout_constraintTop_toBottomOf="@+id/inputRegistroContrasena"/>
 
     <TextView
+        android:id="@+id/textViewNoTienesCuenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/noTienesCuenta"
-        android:textColor="@color/fondoBoton"
+        android:textColor="@color/white"
         android:textAlignment="center"
         android:fontFamily="@font/inriasans_bold"
         android:layout_marginTop="20dp"
