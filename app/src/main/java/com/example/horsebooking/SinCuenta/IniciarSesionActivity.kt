@@ -1,7 +1,6 @@
 package com.example.horsebooking.SinCuenta
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ClickableSpan
@@ -11,10 +10,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.horsebooking.PerfilUsuarioActivity
+import com.example.horsebooking.NovedadesActivity
 import com.example.horsebooking.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -33,6 +31,7 @@ class IniciarSesionActivity : AppCompatActivity() {
         textViewNoTienesCuenta = findViewById(R.id.textViewNoTienesCuenta)
         editTextEmailUsuario = findViewById(R.id.inputRegistroEmail)
         editTextContrasenaUsuario = findViewById(R.id.inputRegistroContrasena)
+        comprobarSesion(FirebaseAuth.getInstance())
 
         val texto = textViewNoTienesCuenta.text.toString()
         val spannableString = SpannableString(texto)
@@ -52,6 +51,20 @@ class IniciarSesionActivity : AppCompatActivity() {
             spanClicable.onClick(it)
         }
         textViewNoTienesCuenta.movementMethod = android.text.method.LinkMovementMethod.getInstance()
+    }
+
+    fun comprobarSesion(firebaseAuth: FirebaseAuth) {
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
+
+        if (firebaseUser == null && this !is IniciarSesionActivity) {
+
+            // redirigir a la pantalla de inicio de sesión
+        } else if (firebaseUser != null) {
+            // Hay un usuario autenticado, redirigir a la pantalla principal
+            val intent = Intent(this, NovedadesActivity::class.java)
+            startActivity(intent)
+            finishAffinity() // Cierra todas las actividades anteriores
+        }
     }
 
     /** @author Almudena Iparraguirre Castillo
@@ -96,7 +109,7 @@ class IniciarSesionActivity : AppCompatActivity() {
                     val user = firebaseAuth.currentUser
                     Toast.makeText(baseContext, "Autenticación exitosa", Toast.LENGTH_SHORT).show()
                     // Crear un Intent para ir a MainActivity
-                    val intent = Intent(this, PerfilUsuarioActivity::class.java)
+                    val intent = Intent(this, NovedadesActivity::class.java)
                     // Pasar el correo electrónico como extra al Intent
                     intent.putExtra("email", email)
                     // Iniciar la actividad

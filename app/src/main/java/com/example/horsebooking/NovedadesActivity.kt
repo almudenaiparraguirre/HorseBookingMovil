@@ -1,17 +1,16 @@
 package com.example.horsebooking
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class PerfilUsuarioActivity : AppCompatActivity() {
+
+class NovedadesActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_perfil_usuario)
+        setContentView(R.layout.activity_novedades)
         bottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener)
     }
@@ -19,25 +18,24 @@ class PerfilUsuarioActivity : AppCompatActivity() {
     private val navListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.menu_novedades -> {
-                    startActivity(Intent(this@PerfilUsuarioActivity,NovedadesActivity::class.java))
-                    finish()
+                R.id.menu_novedades ->
                     return@OnNavigationItemSelectedListener true
-                }
 
                 R.id.menu_reservas -> {
-                    startActivity(Intent(this@PerfilUsuarioActivity, ReservasActivity::class.java))
+                    startActivity(Intent(this@NovedadesActivity, ReservasActivity::class.java))
                     finish()
                     return@OnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_precios -> {
-                    startActivity(Intent(this@PerfilUsuarioActivity, PreciosActivity::class.java))
+                    startActivity(Intent(this@NovedadesActivity, PreciosActivity::class.java))
                     finish()
                     return@OnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_perfil -> {
+                    startActivity(Intent(this@NovedadesActivity, PerfilUsuarioActivity::class.java))
+                    finish()
                     return@OnNavigationItemSelectedListener true
                 }
             }
