@@ -19,7 +19,7 @@
             android:name=".PreciosActivity"
             android:exported="false" />
         <activity
-            android:name=".NovedadesActivity"
+            android:name=".SinCuenta.NovedadesActivity"
             android:exported="false" />
         <activity
             android:name=".PerfilUsuarioActivity"

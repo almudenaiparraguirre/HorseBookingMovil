@@ -1,5 +1,6 @@
 package com.example.horsebooking
 
+import com.example.horsebooking.SinCuenta.NovedadesActivity
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +22,7 @@ class PerfilUsuarioActivity : AppCompatActivity() {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_novedades -> {
-                    startActivity(Intent(this@PerfilUsuarioActivity,NovedadesActivity::class.java)
+                    startActivity(Intent(this@PerfilUsuarioActivity, NovedadesActivity::class.java)
                         .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     finish()
                     return@OnNavigationItemSelectedListener true

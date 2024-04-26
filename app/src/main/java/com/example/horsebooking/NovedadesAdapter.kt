@@ -6,19 +6,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.horsebooking.R
 
-class NovedadesAdapter(novedadesList: List<Novedad>, context: Context) :
+class NovedadesAdapter(private val novedadesList: MutableList<Novedad>, private val context: Context) :
     RecyclerView.Adapter<NovedadesAdapter.NovedadViewHolder>() {
-    private val novedadesList: List<Novedad>
-    private val context: Context
-
-    init {
-        this.novedadesList = novedadesList
-        this.context = context
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NovedadViewHolder {
-        val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.novedad_item, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.novedad_item, parent, false)
         return NovedadViewHolder(view)
     }
 
@@ -33,12 +25,7 @@ class NovedadesAdapter(novedadesList: List<Novedad>, context: Context) :
     }
 
     inner class NovedadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tituloTextView: TextView
-        var fechaTextView: TextView
-
-        init {
-            tituloTextView = itemView.findViewById(R.id.tituloTextView)
-            fechaTextView = itemView.findViewById(R.id.fechaTextView)
-        }
+        var tituloTextView: TextView = itemView.findViewById(R.id.tituloTextView)
+        var fechaTextView: TextView = itemView.findViewById(R.id.fechaTextView)
     }
 }

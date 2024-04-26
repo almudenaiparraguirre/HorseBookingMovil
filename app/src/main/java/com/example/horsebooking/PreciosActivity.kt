@@ -1,10 +1,10 @@
 package com.example.horsebooking
 
+import com.example.horsebooking.SinCuenta.NovedadesActivity
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class PreciosActivity : AppCompatActivity() {
