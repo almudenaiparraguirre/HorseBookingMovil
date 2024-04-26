@@ -53,6 +53,9 @@ class IniciarSesionActivity : AppCompatActivity() {
         textViewNoTienesCuenta.movementMethod = android.text.method.LinkMovementMethod.getInstance()
     }
 
+    /** @author Almudena Iparraguirre Castillo
+     * Función que comprueba la sesión el el móvil del usuario
+     * @param firebaseAuth */
     fun comprobarSesion(firebaseAuth: FirebaseAuth) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser
 

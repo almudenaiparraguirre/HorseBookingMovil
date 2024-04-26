@@ -8,35 +8,45 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NovedadesActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_novedades)
-        bottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView = findViewById(R.id.bottom_navigation_novedades)
+        bottomNavigationView.selectedItemId = R.id.menu_novedades
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener)
     }
 
     private val navListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.menu_novedades ->
-                    return@OnNavigationItemSelectedListener true
+                R.id.menu_novedades -> return@OnNavigationItemSelectedListener true
 
                 R.id.menu_reservas -> {
-                    startActivity(Intent(this@NovedadesActivity, ReservasActivity::class.java))
-                    finish()
-                    return@OnNavigationItemSelectedListener true
+                    if (javaClass != ReservasActivity::class.java) {
+                        startActivity(Intent(this@NovedadesActivity, ReservasActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                        finish()
+                        return@OnNavigationItemSelectedListener true
+                    }
                 }
 
                 R.id.menu_precios -> {
-                    startActivity(Intent(this@NovedadesActivity, PreciosActivity::class.java))
-                    finish()
-                    return@OnNavigationItemSelectedListener true
+                    if (javaClass != PreciosActivity::class.java) {
+                        startActivity(Intent(this@NovedadesActivity, PreciosActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                        finish()
+                        return@OnNavigationItemSelectedListener true
+                    }
                 }
 
                 R.id.menu_perfil -> {
-                    startActivity(Intent(this@NovedadesActivity, PerfilUsuarioActivity::class.java))
-                    finish()
-                    return@OnNavigationItemSelectedListener true
+                    if (javaClass != PerfilUsuarioActivity::class.java) {
+                        startActivity(Intent(this@NovedadesActivity, PerfilUsuarioActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                        finish()
+                        return@OnNavigationItemSelectedListener true
+                    }
                 }
             }
             false
