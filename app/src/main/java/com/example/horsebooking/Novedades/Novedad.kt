@@ -1,8 +1,9 @@
+package com.example.horsebooking.Novedades
+
 data class Novedad(
     val titulo: String = "",
     val descripcion: String = "",
-    val fecha: String = "" // Agrega la propiedad fecha
+    val fecha: String = ""
 ) {
-    // Constructor sin argumentos necesario para Firebase
     constructor() : this("", "", "")
 }

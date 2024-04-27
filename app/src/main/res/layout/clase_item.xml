@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="10dp">
 
     <!-- Contenedor de la tarjeta -->
     <androidx.cardview.widget.CardView
@@ -25,12 +25,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp">
+            android:paddingTop="10dp">
 
             <LinearLayout
                 android:id="@+id/contenedorDatos"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="110dp"
                 android:orientation="horizontal"
                 android:weightSum="10">
 
@@ -55,35 +55,73 @@
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
                         android:orientation="horizontal"
+                        android:weightSum="5"
                         android:layout_marginBottom="5dp">
-
+                        <!-- título academia -->
                         <TextView
-                            android:id="@+id/tituloTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
+                            android:id="@+id/tituloCurso"
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_weight="5"
+                            android:text="nombre_curso"
                             android:textAlignment="center"
                             android:fontFamily="@font/inriasans_bold"
-                            android:text="Titulo"
-                            android:textColor="@color/black"
-                            tools:ignore="MissingConstraints" />
-
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"/>
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="8"
+                        android:layout_marginStart="5dp">
 
                         <!-- Descripción academia -->
                         <TextView
-                            android:id="@+id/descripcionTextView"
-                            android:layout_width="match_parent"
+                            android:id="@+id/descAcademia"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="4"
-                            android:fontFamily="@font/inriasans_regular"
-                            android:text="descripci_n_del_curso"
+                            android:text="Descripción de la clase"
                             android:textAlignment="center"
+                            android:fontFamily="@font/inriasans_regular"
                             android:textSize="12sp"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/white"/>
+
+                        <!-- Precio academia -->
+                        <TextView
+                            android:id="@+id/info_precio_curso"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="bottom|end"
+                            android:text="precio"
+                            android:fontFamily="@font/inriasans_regular"
+                            android:textAlignment="gravity"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:padding="5dp"
+                            android:textColor="@color/white"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <!-- boton inscribirse en curso -->
+            <Button
+                android:id="@+id/btnInscribirse"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@null"
+                android:backgroundTint="@color/fondoBoton"
+                android:drawableTint="@color/white"
+                android:text="Inscribirse"
+                android:fontFamily="@font/inriasans_regular"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                app:cornerRadius="10dp"
+                android:layout_marginVertical="10dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,14 @@
-package com.example.horsebooking.SinCuenta
+package com.example.horsebooking.Novedades
 
-import Novedad
-import NovedadesAdapter
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.horsebooking.PerfilUsuarioActivity
-import com.example.horsebooking.PreciosActivity
+import com.example.horsebooking.Perfil.PerfilUsuarioActivity
+import com.example.horsebooking.Clases.ClasesActivity
 import com.example.horsebooking.R
-import com.example.horsebooking.ReservasActivity
+import com.example.horsebooking.Reservas.ReservasActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -35,7 +33,7 @@ class NovedadesActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference.child("novedades")
 
         // Configurar RecyclerView
-        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerViewNovedades)
         recyclerView.layoutManager = LinearLayoutManager(this)
         novedadesAdapter =
             NovedadesAdapter(novedadesList, this) // Pasar el contexto como segundo parámetro
@@ -73,8 +71,8 @@ class NovedadesActivity : AppCompatActivity() {
                     }
                 }
                 R.id.menu_precios -> {
-                    if (javaClass != PreciosActivity::class.java) {
-                        startActivity(Intent(this@NovedadesActivity, PreciosActivity::class.java)
+                    if (javaClass != ClasesActivity::class.java) {
+                        startActivity(Intent(this@NovedadesActivity, ClasesActivity::class.java)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                         finish()
                         return@OnNavigationItemSelectedListener true

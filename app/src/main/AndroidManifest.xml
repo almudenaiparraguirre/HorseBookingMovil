@@ -13,16 +13,16 @@
         android:theme="@style/Theme.HorseBooking"
         tools:targetApi="31">
         <activity
-            android:name=".ReservasActivity"
+            android:name=".Reservas.ReservasActivity"
             android:exported="false" />
         <activity
-            android:name=".PreciosActivity"
+            android:name=".Clases.ClasesActivity"
             android:exported="false" />
         <activity
-            android:name=".SinCuenta.NovedadesActivity"
+            android:name=".Novedades.NovedadesActivity"
             android:exported="false" />
         <activity
-            android:name=".PerfilUsuarioActivity"
+            android:name=".Perfil.PerfilUsuarioActivity"
             android:exported="false" />
         <activity
             android:name=".SinCuenta.Registrate2Activity"
