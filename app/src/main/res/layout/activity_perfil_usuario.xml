@@ -14,21 +14,191 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewIniciarSesion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PERFIL"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:fontFamily="@font/inriasans_bold"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:forceDarkAllowed="false"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <!--LAYOUT GENERAL-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <!--LAYOUT SUPERIOR-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutID"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                tools:context=".activitys.PerfilUsuarioActivity">
+
+                <!-- Fondo general -->
+                <ImageView
+                    android:id="@+id/fondoMitadSuperiorBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <!--flecha-->
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:clickable="true"
+                    android:onClick="volverModoJuego"
+                    android:src="@mipmap/img_logo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!--Titulo-->
+                <TextView
+                    android:id="@+id/tv_perfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:gravity="center"
+                    android:text="PERFIL"
+                    android:textSize="40dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!--Lapiz-->
+                <ImageView
+                    android:id="@+id/lapiz_editar"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:clickable="true"
+                    android:elevation="20dp"
+                    android:onClick="cargarImagen"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardview_perfil"
+                    app:layout_constraintEnd_toEndOf="@+id/cardview_perfil" />
+
+                <!--Foto Perfil-->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardview_perfil"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:elevation="10dp"
+                    app:cardCornerRadius="200dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_perfil"
+                    app:layout_constraintVertical_bias="0.1">
+
+                    <ImageView
+                        android:id="@+id/roundedImageView"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@color/white"
+                        android:scaleType="centerCrop"
+                        app:cardCornerRadius="200dp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <!--Nombre-->
+                <EditText
+                    android:id="@+id/nombre_usuario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:inputType="text|textNoSuggestions"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:text="dorado40"
+                    android:textSize="40dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardview_perfil" />
+
+                <!--Correo-->
+                <TextView
+                    android:id="@+id/gmail_usuario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="dorado40@gmail.com"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nombre_usuario" />
+
+                <RelativeLayout
+                    android:id="@+id/editarLabelContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    tools:ignore="MissingConstraints">
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:text="Se unió en abril de 2023"
+                    android:textAlignment="center"
+                    android:textColor="@color/gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/gmail_usuario">
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/img_logo"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/fechaRegistro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center"
+                        android:text="Se unió en abril de 2023"
+                        android:textAlignment="center"
+                        android:textColor="@color/gray"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/etiquetaEditar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Pinche sobre el nombre de usuario o el email para editarlos"
+                    android:textColor="@android:color/white"
+                    android:textSize="10dp"
+                    tools:ignore="MissingConstraints"
+                    android:fontFamily="@font/inriasans_regular"
+                    tools:layout_editor_absoluteX="71dp"
+                    tools:layout_editor_absoluteY="44dp"
+                    android:visibility="gone"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_perfil"
         android:layout_width="0dp"
