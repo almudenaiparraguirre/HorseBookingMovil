@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener
 
 class IniciarSesionActivity : AppCompatActivity() {
 
-    private val firebaseAuth = FirebaseAuth.getInstance()
+    private val firebaseAuth = FirebaseDB.getInstanceFirebase()
     private lateinit var textViewNoTienesCuenta: TextView
     private lateinit var editTextEmailUsuario: EditText
     private lateinit var editTextContrasenaUsuario: EditText
@@ -56,7 +56,7 @@ class IniciarSesionActivity : AppCompatActivity() {
     /** @author Almudena Iparraguirre Castillo
      * Función que comprueba la sesión el el móvil del usuario
      * @param firebaseAuth */
-    /*fun comprobarSesion(firebaseAuth: FirebaseAuth) {
+    fun comprobarSesion(firebaseAuth: FirebaseAuth) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser
 
         if (firebaseUser == null && this !is IniciarSesionActivity) {
@@ -68,7 +68,7 @@ class IniciarSesionActivity : AppCompatActivity() {
             startActivity(intent)
             finishAffinity() // Cierra todas las actividades anteriores
         }
-    }*/
+    }
 
     /** @author Almudena Iparraguirre Castillo
      * Función que verifica las credenciales introducidas por el usuario

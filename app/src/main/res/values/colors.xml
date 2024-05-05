@@ -12,4 +12,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="gray">#888584</color>
+    <color name="rojo">#F1473B</color>
 </resources>
