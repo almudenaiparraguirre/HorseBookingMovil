@@ -1,7 +1,9 @@
 package com.example.horsebooking.SinCuenta
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 
 class Registrate2Activity : AppCompatActivity() {
 
@@ -25,6 +29,7 @@ class Registrate2Activity : AppCompatActivity() {
     private lateinit var inputRegistroContrasena: EditText
     private lateinit var inputRegistroRepetirContrasena: EditText
     private lateinit var mensajeError: TextView
+    private lateinit var storage: FirebaseStorage
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +43,61 @@ class Registrate2Activity : AppCompatActivity() {
         inputRegistroContrasena = findViewById(R.id.inputRegistroContrasenaUsuario)
         inputRegistroRepetirContrasena = findViewById(R.id.inputRegistroRepetirContrasenaUsuario)
         mensajeError = findViewById(R.id.mensajeError)
+    }
+
+    /**
+     * Método para establecer la foto de perfil por defecto para el usuario recién registrado.
+     * @param userId El ID del usuario recién registrado.
+     */
+    private fun establecerFotoPerfilPorDefecto(userId: String) {
+        val storageRef = storage.reference
+
+        // Seleccionar aleatoriamente una imagen de la lista
+        val imagenAleatoria = R.mipmap.img_logo
+
+        // Nombre de la imagen por defecto en Firebase Storage
+        val imagenPorDefecto = "$imagenAleatoria.jpg"
+        val defaultProfileImageRef = storageRef.child("imagenesPerfilGente/$imagenPorDefecto")
+        val userImageRef = storageRef.child("imagenesPerfilGente/$userId.jpg")
+
+        // Crear un archivo temporal para descargar la imagen por defecto
+        val localFile = File.createTempFile("temp_image", "jpg")
+
+        defaultProfileImageRef.getFile(localFile)
+            .addOnSuccessListener {
+                userImageRef.putFile(Uri.fromFile(localFile))
+                    .addOnSuccessListener {
+                        guardarUrlImagenPorDefectoEnBaseDeDatos(userId)
+                        Log.d(ContentValues.TAG, "Imagen de perfil predeterminada establecida para el usuario: $userId")
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e(
+                            ContentValues.TAG,
+                            "Error al establecer la imagen de perfil predeterminada: ${exception.message}"
+                        )
+                    }
+            }
+            .addOnFailureListener { exception ->
+                Log.e(ContentValues.TAG, "Error al descargar la imagen por defecto: ${exception.message}")
+            }
+    }
+
+    /**
+     * Método para guardar la URL de la imagen por defecto en la base de datos para el usuario recién registrado.
+     * @param userId El ID del usuario recién registrado.
+     */
+    private fun guardarUrlImagenPorDefectoEnBaseDeDatos(userId: String) {
+        var file = Uri.fromFile(File("res/mipmap/fotoperfil_acordeon.png"))
+        val nuevoNombre = "pruebaSubida"
+        val riversRef = storage.reference.child("imagenesPerfilGente/${nuevoNombre}")
+        var uploadTask = riversRef.putFile(file)
+
+        uploadTask.addOnFailureListener {
+            println("ERROR - Fallo al subir la imagen en el registro")
+        }.addOnSuccessListener { taskSnapshot ->
+            println("ÉXITO al subir la imagen en el registro")
+        }
+        Log.d(ContentValues.TAG, "URL de imagen predeterminada guardada en la base de datos para el usuario: $userId")
     }
 
     /**
@@ -78,6 +138,7 @@ class Registrate2Activity : AppCompatActivity() {
 
                                 val intent = Intent(this@Registrate2Activity, IniciarSesionActivity::class.java)
                                 startActivity(intent)
+                                establecerFotoPerfilPorDefecto(userId)
                                 finish()
                             }
                             .addOnFailureListener { e ->

@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -49,6 +50,7 @@ class PerfilUsuarioActivity : AppCompatActivity() {
     private lateinit var imagen: ImageView
     private lateinit var lapiz: ImageView
     private lateinit var miStorage: StorageReference
+    private lateinit var cardViewPerfil: CardView
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +61,7 @@ class PerfilUsuarioActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener)
         lapiz = findViewById(R.id.lapiz_editar)
         imagen = findViewById(R.id.roundedImageView)
+        cardViewPerfil = findViewById(R.id.cardview_perfil)
 
         val userId = FirebaseDB.getInstanceFirebase().currentUser?.uid
         val storageRef: StorageReference = FirebaseDB.getInstanceStorage().reference.child("imagenesPerfilGente").child("$userId.jpg")
@@ -74,6 +77,14 @@ class PerfilUsuarioActivity : AppCompatActivity() {
 
         lapiz.setOnClickListener {
             mostrarDialogoElegirOrigen()
+        }
+    }
+
+    private fun mostrarImagenSeleccionada(uri: Uri?) {
+        uri?.let {
+            Glide.with(this)
+                .load(it)
+                .into(imagen)
         }
     }
 
@@ -163,6 +174,16 @@ class PerfilUsuarioActivity : AppCompatActivity() {
             println("Error al cargar la imagen: ${exception.message}")
 
             imagen.setImageResource(R.mipmap.img_logo)
+        }
+    }
+
+    private fun mostrarImagenGrande() {
+        cardViewPerfil.setOnClickListener {
+            mostrarDialogImagen(imagen)
+        }
+
+        lapiz.setOnClickListener {
+            mostrarDialogoElegirOrigen()
         }
     }
 
@@ -403,5 +424,4 @@ class PerfilUsuarioActivity : AppCompatActivity() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, REQUEST_CAMERA)
     }
-
 }
