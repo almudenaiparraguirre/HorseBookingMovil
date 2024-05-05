@@ -78,6 +78,7 @@ class PerfilUsuarioActivity : AppCompatActivity() {
         lapiz.setOnClickListener {
             mostrarDialogoElegirOrigen()
         }
+        mostrarImagenGrande()
     }
 
     private fun mostrarImagenSeleccionada(uri: Uri?) {
