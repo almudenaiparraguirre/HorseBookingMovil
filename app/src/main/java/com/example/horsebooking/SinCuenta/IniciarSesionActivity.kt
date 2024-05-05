@@ -31,7 +31,7 @@ class IniciarSesionActivity : AppCompatActivity() {
         textViewNoTienesCuenta = findViewById(R.id.textViewNoTienesCuenta)
         editTextEmailUsuario = findViewById(R.id.inputRegistroEmail)
         editTextContrasenaUsuario = findViewById(R.id.inputRegistroContrasena)
-        //comprobarSesion(FirebaseAuth.getInstance())
+        comprobarSesion(FirebaseAuth.getInstance())
 
         val texto = textViewNoTienesCuenta.text.toString()
         val spannableString = SpannableString(texto)

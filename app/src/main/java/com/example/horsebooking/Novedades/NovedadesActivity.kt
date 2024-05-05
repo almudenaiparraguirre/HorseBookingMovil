@@ -2,6 +2,7 @@ package com.example.horsebooking.Novedades
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,10 @@ import com.example.horsebooking.Perfil.PerfilUsuarioActivity
 import com.example.horsebooking.Clases.ClasesActivity
 import com.example.horsebooking.R
 import com.example.horsebooking.Reservas.ReservasActivity
+import com.example.horsebooking.SinCuenta.FirebaseDB
+import com.example.horsebooking.SinCuenta.IniciarSesionActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -23,6 +27,7 @@ class NovedadesActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var novedadesAdapter: NovedadesAdapter
     private val novedadesList = mutableListOf<Novedad>()
+    val auth: FirebaseAuth = FirebaseDB.getInstanceFirebase()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,4 +94,14 @@ class NovedadesActivity : AppCompatActivity() {
             }
             false
         }
+
+    /** @author Almudena Iparraguirre Castillo
+     * Función que cierra sesión en la cuenta actual
+     * @param view */
+    fun cerrarSesion(view: View){
+        auth.signOut()
+        val intent = Intent(this@NovedadesActivity, IniciarSesionActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }
