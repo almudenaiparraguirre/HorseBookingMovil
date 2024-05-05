@@ -31,7 +31,7 @@ class IniciarSesionActivity : AppCompatActivity() {
         textViewNoTienesCuenta = findViewById(R.id.textViewNoTienesCuenta)
         editTextEmailUsuario = findViewById(R.id.inputRegistroEmail)
         editTextContrasenaUsuario = findViewById(R.id.inputRegistroContrasena)
-        comprobarSesion(FirebaseAuth.getInstance())
+        //comprobarSesion(FirebaseAuth.getInstance())
 
         val texto = textViewNoTienesCuenta.text.toString()
         val spannableString = SpannableString(texto)
@@ -56,7 +56,7 @@ class IniciarSesionActivity : AppCompatActivity() {
     /** @author Almudena Iparraguirre Castillo
      * Función que comprueba la sesión el el móvil del usuario
      * @param firebaseAuth */
-    fun comprobarSesion(firebaseAuth: FirebaseAuth) {
+    /*fun comprobarSesion(firebaseAuth: FirebaseAuth) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser
 
         if (firebaseUser == null && this !is IniciarSesionActivity) {
@@ -68,7 +68,7 @@ class IniciarSesionActivity : AppCompatActivity() {
             startActivity(intent)
             finishAffinity() // Cierra todas las actividades anteriores
         }
-    }
+    }*/
 
     /** @author Almudena Iparraguirre Castillo
      * Función que verifica las credenciales introducidas por el usuario
@@ -126,5 +126,13 @@ class IniciarSesionActivity : AppCompatActivity() {
                     Log.e("IniciarSesion", "Error de autenticación: ${task.exception?.message}")
                 }
             }
+    }
+
+    /** @author Almudena Iparraguirre Castillo
+     * Función que deriva a la pantalla de olvido de contraseña
+     * @param view */
+    fun irOlvidoContrasena(view: View){
+        val intent = Intent(this@IniciarSesionActivity, OlvidoContrasenaActivity::class.java)
+        startActivity(intent)
     }
 }

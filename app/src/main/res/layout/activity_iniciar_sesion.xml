@@ -93,4 +93,19 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/botonIniciarSesion"/>
 
+    <TextView
+        android:id="@+id/textViewOlvidoContrasena"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/olvidoContrasena"
+        android:clickable="true"
+        android:onClick="irOlvidoContrasena"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:fontFamily="@font/inriasans_bold"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewNoTienesCuenta"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

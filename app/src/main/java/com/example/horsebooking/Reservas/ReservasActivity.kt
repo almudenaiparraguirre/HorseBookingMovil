@@ -31,7 +31,7 @@ class ReservasActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservas)
-        database = FirebaseDatabase.getInstance().reference.child("reservas")
+        database = FirebaseDatabase.getInstance().reference.child("clases")
         recyclerView = findViewById(R.id.recyclerViewReservas)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
