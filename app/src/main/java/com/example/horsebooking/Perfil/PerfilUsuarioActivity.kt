@@ -136,22 +136,24 @@ class PerfilUsuarioActivity : AppCompatActivity() {
                 .submit()
                 .get()
 
-            // Sube la nueva imagen a Firebase Storage con el nombre del usuario
+            // Comprimir el bitmap
+            val compressedBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width / 2, bitmap.height / 2, true)
+            val baos = ByteArrayOutputStream()
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+            val data = baos.toByteArray()
+
+            // Subir la nueva imagen comprimida a Firebase Storage con el nombre del usuario
             val newImageRef = FirebaseDB.getInstanceStorage().reference.child("imagenesPerfilGente").child("$userId.jpg")
             try {
-                // Save the new image to Firebase Storage
-                val baos = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-                val data = baos.toByteArray()
-
                 Tasks.await(newImageRef.putBytes(data))
 
-                // Now you can use newImageRef to show the image in your app if needed
+                // Ahora puedes usar newImageRef para mostrar la imagen en tu aplicación si es necesario
             } catch (exception: Exception) {
-                println("Error uploading new image: ${exception.message}")
+                println("Error al cargar la nueva imagen: ${exception.message}")
             }
         }
     }
+
 
     /**
      * Descarga la imagen de perfil del usuario desde Firebase Storage y la muestra en la interfaz

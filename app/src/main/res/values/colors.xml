@@ -3,7 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="fondoInicio">#7BB8B1</color>
-    <color name="fondoBotones">#F8E9E9</color>
     <color name="fondoBoton">#19535F</color>
     <color name="error">#A32117</color>
     <color name="primary">#FFC107</color>
@@ -13,4 +12,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="gray">#888584</color>
     <color name="rojo">#F1473B</color>
+    <color name="grisOscuro">#2E2E2E</color>
+    <color name="crema">#97B1AE</color>
 </resources>

@@ -3,17 +3,21 @@
     <item
         android:id="@+id/menu_novedades"
         android:title="Novedades"
-        android:icon="@drawable/baseline_newspaper_24"/>
+        android:icon="@drawable/baseline_newspaper_24"
+        android:iconTint="@color/fondoBoton"/>
     <item
         android:id="@+id/menu_precios"
         android:title="Precios"
-        android:icon="@drawable/baseline_price_check_24"/>
+        android:icon="@drawable/baseline_price_check_24"
+        android:iconTint="@color/fondoBoton"/>
     <item
         android:id="@+id/menu_reservas"
         android:title="Reservas"
-        android:icon="@drawable/baseline_edit_calendar_24"/>
+        android:icon="@drawable/baseline_edit_calendar_24"
+        android:iconTint="@color/fondoBoton"/>
     <item
         android:id="@+id/menu_perfil"
         android:title="Perfil"
-        android:icon="@drawable/baseline_person_2_24"/>
+        android:icon="@drawable/baseline_person_2_24"
+        android:iconTint="@color/fondoBoton"/>
 </menu>

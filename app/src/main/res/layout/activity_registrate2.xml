@@ -59,7 +59,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="64dp"
         android:background="@drawable/forma_input_texts"
         android:fontFamily="@font/inriasans_regular"
         android:hint="Fecha de nacimiento"

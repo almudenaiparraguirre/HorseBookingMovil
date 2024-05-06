@@ -4,21 +4,21 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="10dp">
+    android:padding="8dp">
 
     <!-- Contenedor de la tarjeta -->
     <androidx.cardview.widget.CardView
         android:id="@+id/contenedorItemRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/fondoInicio"
         app:cardCornerRadius="10dp"
         android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:focusable="true">
+        android:focusable="true"
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,43 +68,59 @@
                             android:fontFamily="@font/inriasans_bold"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="@color/white"/>
+                            android:textColor="@color/black"/>
                     </LinearLayout>
 
+                    <!-- Type of class and date range -->
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:weightSum="8"
-                        android:layout_marginStart="5dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                        <!-- Descripción academia -->
                         <TextView
-                            android:id="@+id/descAcademia"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="4"
-                            android:text="Descripción de la clase"
-                            android:textAlignment="center"
+                            android:id="@+id/tipoClase"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Disciplina: "
+                            android:textAlignment="viewStart"
                             android:fontFamily="@font/inriasans_regular"
                             android:textSize="12sp"
-                            android:textColor="@color/white"/>
+                            android:textColor="@color/black"/>
 
-                        <!-- Precio academia -->
                         <TextView
-                            android:id="@+id/info_precio_curso"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="4"
-                            android:gravity="bottom|end"
-                            android:text="precio"
+                            android:id="@+id/fechaInicio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fecha de inicio: 01/01/2024"
+                            android:textAlignment="viewStart"
                             android:fontFamily="@font/inriasans_regular"
-                            android:textAlignment="gravity"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:padding="5dp"
-                            android:textColor="@color/white"/>
+                            android:textSize="12sp"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/fechaFin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fecha de fin: 01/12/2024"
+                            android:textAlignment="viewStart"
+                            android:fontFamily="@font/inriasans_regular"
+                            android:textSize="12sp"
+                            android:textColor="@color/black"/>
                     </LinearLayout>
+
+                    <!-- Course price -->
+                    <TextView
+                        android:id="@+id/info_precio_curso"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom|end"
+                        android:text="precio"
+                        android:fontFamily="@font/inriasans_regular"
+                        android:textAlignment="viewEnd"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:padding="5dp"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
             </LinearLayout>
 
