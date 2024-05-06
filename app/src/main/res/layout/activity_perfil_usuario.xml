@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Perfil.PerfilUsuarioActivity">
+    tools:context=".Perfil.PerfilUsuarioActivity"
+    android:background="@color/fondoInicio">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -24,7 +25,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="0dp"
             android:orientation="vertical">
 
             <!--LAYOUT SUPERIOR-->
@@ -38,31 +38,29 @@
                 <ImageView
                     android:id="@+id/fondoMitadSuperiorBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
+                    android:layout_height="0dp"
                     android:scaleType="fitXY"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0" />
 
-                <!--flecha-->
                 <ImageView
                     android:id="@+id/flecha"
                     android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_height="5dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:clickable="true"
                     android:onClick="volverModoJuego"
-                    android:src="@mipmap/img_logo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <!--Lapiz-->
                 <ImageView
                     android:id="@+id/lapiz_editar"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:clickable="true"
                     android:elevation="20dp"
                     android:src="@drawable/baseline_mode_edit_outline_24"
@@ -72,8 +70,8 @@
                 <!--Foto Perfil-->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardview_perfil"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
                     android:elevation="10dp"
                     app:cardCornerRadius="200dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -85,8 +83,8 @@
 
                     <ImageView
                         android:id="@+id/roundedImageView"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="180dp"
+                        android:layout_height="180dp"
                         android:background="@color/white"
                         android:scaleType="centerCrop"
                         app:cardCornerRadius="200dp" />
@@ -164,7 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="5dp"
                         android:fontFamily="@font/inriasans_regular"
                         android:gravity="center"
                         android:text="correo"
@@ -205,7 +203,7 @@
                         android:textAlignment="center"
                         android:text="telefono"
                         android:textSize="18dp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="5dp"
                         android:fontFamily="@font/inriasans_regular"/>
 
                 </LinearLayout>
@@ -240,7 +238,7 @@
                         android:textAlignment="center"
                         android:text="dirección"
                         android:textSize="18dp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="5dp"
                         android:fontFamily="@font/inriasans_regular"/>
                 </LinearLayout>
 

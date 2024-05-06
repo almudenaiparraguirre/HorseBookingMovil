@@ -11,7 +11,6 @@
         android:id="@+id/contenedorItemRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/fondoInicio"
         app:cardCornerRadius="10dp"
         android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +65,7 @@
                             android:textAlignment="center"
                             android:fontFamily="@font/inriasans_bold"
                             android:text="Titulo"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fondoInicio"
                             tools:ignore="MissingConstraints" />
 
                     </LinearLayout>
@@ -81,7 +80,7 @@
                             android:text="descripci_n_del_curso"
                             android:textAlignment="center"
                             android:textSize="12sp"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/fondoInicio"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

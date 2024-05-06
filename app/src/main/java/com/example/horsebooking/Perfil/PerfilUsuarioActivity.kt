@@ -466,8 +466,15 @@ class PerfilUsuarioActivity : AppCompatActivity() {
      * Función que redirige a la ventana de chat con los trabajadores
      * de la hípica
      * @param view */
-    fun chateaConNosotros(view: View){}
+    fun chateaConNosotros(view: View){
 
-    /** */
-    fun cambiarDatos(){}
+    }
+
+    /** @author Almudena Iparraguirre Castillo
+     * Función que dirige al usuario a la pantalla de cambiar
+     * los datos de la cuenta
+     * @param view */
+    fun cambiarDatos(view: View){
+
+    }
 }
