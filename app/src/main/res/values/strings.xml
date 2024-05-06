@@ -13,4 +13,5 @@
     <string name="desinscribirse"><u>Desinscribirse de esta clase</u></string>
     <string name="chatear">¡Chatea con nosotros!</string>
     <string name="cambiarDatos">Cambiar datos</string>
+    <string name="cerrarSesion"><u>Cerrar sesión</u></string>
 </resources>
