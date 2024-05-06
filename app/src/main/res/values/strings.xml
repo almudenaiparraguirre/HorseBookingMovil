@@ -10,4 +10,7 @@
     <string name="olvidoContrasena">¿Has olvidado la contraseña? ¡Restablécela aquí!</string>
     <string name="caracteristicasContrasena">La contraseña debe contener al menos 8 caracteres, 1 minúscula, 1 mayúscula y 1 número</string>
     <string name="confirmar">Confirmar</string>
+    <string name="desinscribirse"><u>Desinscribirse de esta clase</u></string>
+    <string name="chatear">¡Chatea con nosotros!</string>
+    <string name="cambiarDatos">Cambiar datos</string>
 </resources>

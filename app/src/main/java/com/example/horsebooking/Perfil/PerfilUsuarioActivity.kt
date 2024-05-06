@@ -1,7 +1,6 @@
 package com.example.horsebooking.Perfil
 
 import android.Manifest
-import com.example.horsebooking.Novedades.NovedadesActivity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -10,30 +9,39 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.horsebooking.Clases.ClasesActivity
+import com.example.horsebooking.Novedades.NovedadesActivity
 import com.example.horsebooking.R
 import com.example.horsebooking.Reservas.ReservasActivity
 import com.example.horsebooking.SinCuenta.FirebaseDB
 import com.google.android.gms.tasks.Tasks
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+
 
 class PerfilUsuarioActivity : AppCompatActivity() {
 
@@ -43,6 +51,12 @@ class PerfilUsuarioActivity : AppCompatActivity() {
     private lateinit var lapiz: ImageView
     private lateinit var miStorage: StorageReference
     private lateinit var cardViewPerfil: CardView
+    private lateinit var nombreUsuario: TextView
+    private lateinit var apellidosUsuario: TextView
+    private lateinit var correoUsuario: TextView
+    private lateinit var telefonoUsuario: TextView
+    private lateinit var direccionUsuario: TextView
+    private var userId: String? = null
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,8 +68,35 @@ class PerfilUsuarioActivity : AppCompatActivity() {
         lapiz = findViewById(R.id.lapiz_editar)
         imagen = findViewById(R.id.roundedImageView)
         cardViewPerfil = findViewById(R.id.cardview_perfil)
+        nombreUsuario = findViewById(R.id.nombre_usuario)
+        apellidosUsuario = findViewById(R.id.apellidos_usuario)
+        correoUsuario = findViewById(R.id.correo_usuario)
+        telefonoUsuario = findViewById(R.id.telefono_usuario)
+        direccionUsuario = findViewById(R.id.direccion_usuario)
 
-        val userId = FirebaseDB.getInstanceFirebase().currentUser?.uid
+        val email = FirebaseDB.getInstanceFirebase().currentUser?.email?.replace(".", ",")
+        if (email != null) {
+            val userRef = FirebaseDatabase.getInstance().getReference("usuarios").child(email.toString())
+            userRef.child("nombre").get().addOnSuccessListener { dataSnapshot ->
+                val nombre = dataSnapshot.getValue(String::class.java)
+                nombreUsuario.text = nombre
+            }
+            userRef.child("apellidos").get().addOnSuccessListener { dataSnapshot ->
+                val apellidos = dataSnapshot.getValue(String::class.java)
+                apellidosUsuario.text = apellidos
+            }
+            userRef.child("telefono").get().addOnSuccessListener { dataSnapshot ->
+                val telefono = dataSnapshot.getValue(String::class.java)
+                telefonoUsuario.text = telefono
+            }
+            userRef.child("direccion").get().addOnSuccessListener { dataSnapshot ->
+                val direccion = dataSnapshot.getValue(String::class.java)
+                direccionUsuario.text = direccion
+            }
+        } else {
+            Toast.makeText(this@PerfilUsuarioActivity, "Id nulo", Toast.LENGTH_SHORT).show()
+        }
+
         val storageRef: StorageReference = FirebaseDB.getInstanceStorage().reference.child("imagenesPerfilGente").child("$userId.jpg")
         val imagesRef = storageRef.child("imagenesPerfilGente/$userId.jpg")
         println("Image URL: $imagesRef")
@@ -71,6 +112,7 @@ class PerfilUsuarioActivity : AppCompatActivity() {
             mostrarDialogoElegirOrigen()
         }
         mostrarImagenGrande()
+        correoUsuario.text = FirebaseDB.getInstanceFirebase().currentUser?.email
     }
 
     private fun mostrarImagenSeleccionada(uri: Uri?) {
@@ -419,4 +461,13 @@ class PerfilUsuarioActivity : AppCompatActivity() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, REQUEST_CAMERA)
     }
+
+    /** @author Almudena Iparraguirre Castillo
+     * Función que redirige a la ventana de chat con los trabajadores
+     * de la hípica
+     * @param view */
+    fun chateaConNosotros(view: View){}
+
+    /** */
+    fun cambiarDatos(){}
 }

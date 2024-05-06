@@ -9,15 +9,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.horsebooking.R
 
-class ClasesAdapter(private val clasesList: List<Clase>, private val context: Context) :
-    RecyclerView.Adapter<ClasesAdapter.ClaseViewHolder>() {
+class ReservasAdapter(private val clasesList: List<Clase>, private val context: Context) :
+    RecyclerView.Adapter<ReservasAdapter.ReservaViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClaseViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.clase_item, parent, false)
-        return ClaseViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservaViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.reserva_item, parent, false)
+        return ReservaViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ClaseViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ReservasAdapter.ReservaViewHolder, position: Int) {
         val clase = clasesList[position]
         holder.tituloTextView.text = clase.titulo
         holder.tipoClaseTextView.text = "Disciplina: " + clase.tipo
@@ -38,7 +38,7 @@ class ClasesAdapter(private val clasesList: List<Clase>, private val context: Co
         return clasesList.size
     }
 
-    inner class ClaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ReservaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tituloTextView: TextView = itemView.findViewById(R.id.tituloCurso)
         val tipoClaseTextView: TextView = itemView.findViewById(R.id.tipoClase)
         val fechaInicioTextView: TextView = itemView.findViewById(R.id.fechaInicio)

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
 /**
@@ -16,6 +17,7 @@ class FirebaseDB {
         @Volatile
         private var INSTANCEAUTH: FirebaseAuth? = null
         private var INSTANCESTORAGE: FirebaseStorage? = null
+        private var INSTANCEDATABASE: FirebaseDatabase? = null
 
         /**
          * Obtiene y devuelve la instancia única de FirebaseAuth.
@@ -40,6 +42,19 @@ class FirebaseDB {
                 if (INSTANCESTORAGE == null)
                     INSTANCESTORAGE = FirebaseStorage.getInstance()
                 return INSTANCESTORAGE as FirebaseStorage
+            }
+        }
+
+        /**
+         * Obtiene y devuelve la instancia única de FirebaseStorage.
+         *
+         * @return Instancia de FirebaseStorage.
+         */
+        fun getInstanceDatabase(): FirebaseDatabase {
+            synchronized(this) {
+                if (INSTANCEDATABASE == null)
+                    INSTANCEDATABASE = FirebaseDatabase.getInstance()
+                return INSTANCEDATABASE as FirebaseDatabase
             }
         }
     }
