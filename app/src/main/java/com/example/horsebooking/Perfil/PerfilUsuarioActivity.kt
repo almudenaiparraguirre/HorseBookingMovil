@@ -6,27 +6,19 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.MotionEvent
-import android.view.View
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -137,7 +129,7 @@ class PerfilUsuarioActivity : AppCompatActivity() {
                 .get()
 
             // Comprimir el bitmap
-            val compressedBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width / 2, bitmap.height / 2, true)
+            val compressedBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width, bitmap.height, true)
             val baos = ByteArrayOutputStream()
             compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
             val data = baos.toByteArray()

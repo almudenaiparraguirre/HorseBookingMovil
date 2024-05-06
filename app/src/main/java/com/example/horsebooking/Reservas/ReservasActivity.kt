@@ -1,10 +1,12 @@
 package com.example.horsebooking.Reservas
 
-import com.example.horsebooking.Novedades.NovedadesActivity
 import android.annotation.SuppressLint
+import com.example.horsebooking.Novedades.NovedadesActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.horsebooking.Clases.Clase
@@ -12,6 +14,7 @@ import com.example.horsebooking.Clases.ClasesActivity
 import com.example.horsebooking.Clases.ClasesAdapter
 import com.example.horsebooking.Perfil.PerfilUsuarioActivity
 import com.example.horsebooking.R
+import com.example.horsebooking.SinCuenta.FirebaseDB
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -22,73 +25,115 @@ import com.google.firebase.database.ValueEventListener
 class ReservasActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var database: DatabaseReference
     private lateinit var recyclerView: RecyclerView
     private lateinit var clasesAdapter: ClasesAdapter
-    private val novedadesList = mutableListOf<Clase>()
+    private lateinit var database: DatabaseReference
+    private val bookedClassesList = mutableListOf<Clase>()
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservas)
-        database = FirebaseDatabase.getInstance().reference.child("clases")
+        setupRecyclerView()
+        fetchBookedClasses()
+        setupBottomNavigationView()
+    }
+
+    private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.recyclerViewReservas)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        clasesAdapter =
-            ClasesAdapter(novedadesList, this) // Pasar el contexto como segundo parámetro
+        clasesAdapter = ClasesAdapter(bookedClassesList, this)
         recyclerView.adapter = clasesAdapter
+    }
 
-        // Leer datos de Firebase Realtime Database
-        database.addValueEventListener(object : ValueEventListener {
+    private fun fetchBookedClasses() {
+        val userId = FirebaseDB.getInstanceFirebase().currentUser?.uid
+        Log.d("ReservasActivity", "User ID: $userId")  // Log the user ID to verify it's not null
+        if (userId != null) {
+            val email = FirebaseDB.getInstanceFirebase().currentUser?.email
+            val formattedEmail = email?.replace(".", ",")
+            if (email != null) {
+                // Declarar reservationsRef fuera del bloque if
+                val reservationsRef = FirebaseDatabase.getInstance().getReference("usuarios").child(formattedEmail.toString()).child("reservas")
+                reservationsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            Log.d("ReservasActivity", "Reservations found: ${snapshot.childrenCount}")  // Log how many reservations are found
+                            snapshot.children.forEach { child ->
+                                val reservation = child.getValue(Reservation::class.java)
+                                Log.d("ReservasActivity", "Reservation data for ${child.key}: $reservation")  // Log the details of each reservation
+                                if (reservation?.booked == true) {
+                                    fetchClassDetails(child.key!!)
+                                } else {
+                                    Log.d("ReservasActivity", "Class ${child.key} is not booked")
+                                }
+                            }
+                        } else {
+                            Log.d("ReservasActivity", "No reservations found for user: $userId")
+                            Toast.makeText(this@ReservasActivity, "No bookings found.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e("ReservasActivity", "Failed to fetch reservations: ${error.message}")
+                        Toast.makeText(this@ReservasActivity, "Error fetching data: ${error.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            } else {
+                // Maneja el caso en que el correo electrónico sea nulo
+                Log.e("ReservasActivity", "Correo electrónico del usuario es nulo.")
+            }
+        } else {
+            Log.d("ReservasActivity", "No user ID found.")
+        }
+    }
+
+
+
+    private fun fetchClassDetails(classId: String) {
+        val classReference = FirebaseDatabase.getInstance().getReference("clases").child(classId)
+        classReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
-                novedadesList.clear()
-                for (novedadSnapshot in snapshot.children) {
-                    val novedad = novedadSnapshot.getValue(Clase::class.java)
-                    if (novedad != null) {
-                        novedadesList.add(novedad)
+                val clase = snapshot.getValue(Clase::class.java)
+                if (clase != null) {
+                    bookedClassesList.add(clase)
+                    runOnUiThread {
+                        clasesAdapter.notifyDataSetChanged()
                     }
                 }
-                clasesAdapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Manejar error
+                // Handle error
             }
         })
+    }
+
+
+    private fun setupBottomNavigationView() {
         bottomNavigationView = findViewById(R.id.bottom_navigation_reservas)
         bottomNavigationView.selectedItemId = R.id.menu_reservas
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener)
     }
 
-    private val navListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.menu_novedades -> {
-                    startActivity(Intent(this@ReservasActivity, NovedadesActivity::class.java)
-                        .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
-                    finish()
-                    return@OnNavigationItemSelectedListener true
-                }
-
-                R.id.menu_reservas -> {
-                    return@OnNavigationItemSelectedListener true
-                }
-
-                R.id.menu_precios -> {
-                    startActivity(Intent(this@ReservasActivity, ClasesActivity::class.java)
-                        .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
-                    finish()
-                    return@OnNavigationItemSelectedListener true
-                }
-
-                R.id.menu_perfil -> {
-                    startActivity(Intent(this@ReservasActivity, PerfilUsuarioActivity::class.java)
-                        .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
-                    finish()
-                    return@OnNavigationItemSelectedListener true
-                }
+    private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.menu_novedades -> {
+                startActivity(Intent(this@ReservasActivity, NovedadesActivity::class.java))
+                return@OnNavigationItemSelectedListener true
             }
-            false
+            R.id.menu_reservas -> {
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.menu_precios -> {
+                startActivity(Intent(this@ReservasActivity, ClasesActivity::class.java))
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.menu_perfil -> {
+                startActivity(Intent(this@ReservasActivity, PerfilUsuarioActivity::class.java))
+                return@OnNavigationItemSelectedListener true
+            }
         }
+        false
+    }
 }
