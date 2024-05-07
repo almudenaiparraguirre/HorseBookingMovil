@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Novedades.NovedadesActivity"
     android:padding="8dp">
 
     <!-- Contenedor de la tarjeta -->

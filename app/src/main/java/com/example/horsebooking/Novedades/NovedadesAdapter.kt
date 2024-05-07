@@ -4,12 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.horsebooking.R
 
 class NovedadesAdapter(private val novedadesList: List<Novedad>, private val context: Context) :
-    RecyclerView.Adapter<NovedadesAdapter.NovedadViewHolder>() {
+    RecyclerView.Adapter<NovedadesAdapter.NovedadViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NovedadViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.novedad_item, parent, false)

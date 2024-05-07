@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,24 +16,28 @@ import com.example.horsebooking.Clases.ClasesAdapter
 import com.example.horsebooking.Perfil.PerfilUsuarioActivity
 import com.example.horsebooking.R
 import com.example.horsebooking.SinCuenta.FirebaseDB
+import com.example.horsebooking.SinCuenta.IniciarSesionActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class ReservasActivity : AppCompatActivity() {
+class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener {
 
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var recyclerView: RecyclerView
     private lateinit var clasesAdapter: ClasesAdapter
     private lateinit var database: DatabaseReference
     private val bookedClassesList = mutableListOf<Clase>()
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservas)
+        auth = FirebaseDB.getInstanceFirebase()
         setupRecyclerView()
         fetchBookedClasses()
         setupBottomNavigationView()
@@ -41,7 +46,7 @@ class ReservasActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.recyclerViewReservas)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        clasesAdapter = ClasesAdapter(bookedClassesList, this)
+        clasesAdapter = ClasesAdapter(bookedClassesList, this, this)
         recyclerView.adapter = clasesAdapter
     }
 
@@ -135,5 +140,19 @@ class ReservasActivity : AppCompatActivity() {
             }
         }
         false
+    }
+
+    /** @author Almudena Iparraguirre Castillo
+     * Función que cierra sesión en la cuenta actual
+     * @param view */
+    fun cerrarSesion(view: View){
+        auth.signOut()
+        val intent = Intent(this@ReservasActivity, IniciarSesionActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onInscribirseClicked(position: Int) {
+        TODO("Not yet implemented")
     }
 }

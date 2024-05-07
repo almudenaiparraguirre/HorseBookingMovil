@@ -28,8 +28,10 @@ import com.example.horsebooking.Novedades.NovedadesActivity
 import com.example.horsebooking.R
 import com.example.horsebooking.Reservas.ReservasActivity
 import com.example.horsebooking.SinCuenta.FirebaseDB
+import com.example.horsebooking.SinCuenta.IniciarSesionActivity
 import com.google.android.gms.tasks.Tasks
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -41,7 +43,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
-
 
 class PerfilUsuarioActivity : AppCompatActivity() {
 
@@ -57,6 +58,7 @@ class PerfilUsuarioActivity : AppCompatActivity() {
     private lateinit var telefonoUsuario: TextView
     private lateinit var direccionUsuario: TextView
     private var userId: String? = null
+    private lateinit var auth: FirebaseAuth
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +75,7 @@ class PerfilUsuarioActivity : AppCompatActivity() {
         correoUsuario = findViewById(R.id.correo_usuario)
         telefonoUsuario = findViewById(R.id.telefono_usuario)
         direccionUsuario = findViewById(R.id.direccion_usuario)
+        auth = FirebaseDB.getInstanceFirebase()
 
         val email = FirebaseDB.getInstanceFirebase().currentUser?.email?.replace(".", ",")
         if (email != null) {
@@ -476,5 +479,15 @@ class PerfilUsuarioActivity : AppCompatActivity() {
      * @param view */
     fun cambiarDatos(view: View){
 
+    }
+
+    /** @author Almudena Iparraguirre Castillo
+     * Función que cierra sesión en la cuenta actual
+     * @param view */
+    fun cerrarSesion(view: View){
+        auth.signOut()
+        val intent = Intent(this@PerfilUsuarioActivity, IniciarSesionActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

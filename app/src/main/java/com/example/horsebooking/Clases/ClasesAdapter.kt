@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.horsebooking.R
 
-class ClasesAdapter(private val clasesList: List<Clase>, private val context: Context) :
+class ClasesAdapter(private val clasesList: List<Clase>, private val context: Context, private val listener: OnItemClickListener) :
     RecyclerView.Adapter<ClasesAdapter.ClaseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClaseViewHolder {
@@ -45,5 +45,17 @@ class ClasesAdapter(private val clasesList: List<Clase>, private val context: Co
         val fechaFinTextView: TextView = itemView.findViewById(R.id.fechaFin)
         val precioTextView: TextView = itemView.findViewById(R.id.info_precio_curso)
         val btnInscribirse: Button = itemView.findViewById(R.id.btnInscribirse)
+        init {
+            btnInscribirse.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onInscribirseClicked(position)
+                }
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onInscribirseClicked(position: Int)
     }
 }
