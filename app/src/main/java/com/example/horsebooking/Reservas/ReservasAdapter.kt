@@ -24,14 +24,6 @@ class ReservasAdapter(private val clasesList: List<Clase>, private val context: 
         holder.fechaInicioTextView.text = "Fecha de inicio: " + clase.fecha_inicio
         holder.fechaFinTextView.text = "Fecha de fin: " + clase.fecha_fin
         holder.precioTextView.text = clase.precio + "€"
-
-        if (clase.booked) {
-            holder.btnInscribirse.isEnabled = false
-            holder.btnInscribirse.text = "Inscrito"
-        } else {
-            holder.btnInscribirse.isEnabled = true
-            holder.btnInscribirse.text = "Inscribirse"
-        }
     }
 
     override fun getItemCount(): Int {

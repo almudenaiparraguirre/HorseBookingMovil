@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.horsebooking.Clases.Clase
 import com.example.horsebooking.Clases.ClasesActivity
 import com.example.horsebooking.Clases.ClasesAdapter
+import com.example.horsebooking.Clases.ReservasAdapter
 import com.example.horsebooking.Perfil.PerfilUsuarioActivity
 import com.example.horsebooking.R
 import com.example.horsebooking.SinCuenta.FirebaseDB
@@ -29,7 +30,7 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener 
 
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var clasesAdapter: ClasesAdapter
+    private lateinit var clasesAdapter: ReservasAdapter
     private lateinit var database: DatabaseReference
     private val bookedClassesList = mutableListOf<Clase>()
     private lateinit var auth: FirebaseAuth
@@ -46,12 +47,12 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener 
     private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.recyclerViewReservas)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        clasesAdapter = ClasesAdapter(bookedClassesList, this, this)
+        clasesAdapter = ReservasAdapter(bookedClassesList, this) // Cambio aquí
         recyclerView.adapter = clasesAdapter
     }
 
     private fun fetchBookedClasses() {
-        val userId = FirebaseDB.getInstanceFirebase().currentUser?.uid
+        val userId = FirebaseDB.getInstanceFirebase().currentUser?.email
         Log.d("ReservasActivity", "User ID: $userId")  // Log the user ID to verify it's not null
         if (userId != null) {
             val email = FirebaseDB.getInstanceFirebase().currentUser?.email
@@ -91,8 +92,6 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener 
             Log.d("ReservasActivity", "No user ID found.")
         }
     }
-
-
 
     private fun fetchClassDetails(classId: String) {
         val classReference = FirebaseDatabase.getInstance().getReference("clases").child(classId)
