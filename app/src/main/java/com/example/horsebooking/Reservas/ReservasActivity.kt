@@ -51,6 +51,24 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener 
         recyclerView.adapter = clasesAdapter
     }
 
+    fun desinscribirseClase(claseId: String, position: Int) {
+        val userId = FirebaseAuth.getInstance().currentUser?.email
+        if (userId != null) {
+            val reservaRef = FirebaseDatabase.getInstance().getReference("usuarios/$userId/reservas/$claseId")
+            reservaRef.removeValue().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    bookedClassesList.removeAt(position)
+                    clasesAdapter.notifyItemRemoved(position)
+                    Toast.makeText(this, "Desinscripción exitosa", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Error al desinscribirse", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Toast.makeText(this, "Usuario no identificado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun fetchBookedClasses() {
         val userId = FirebaseDB.getInstanceFirebase().currentUser?.email
         Log.d("ReservasActivity", "User ID: $userId")  // Log the user ID to verify it's not null

@@ -1,5 +1,6 @@
 package com.example.horsebooking.Clases
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.horsebooking.R
+import com.example.horsebooking.Reservas.ReservasActivity
 
 class ReservasAdapter(private val clasesList: List<Clase>, private val context: Context) :
     RecyclerView.Adapter<ReservasAdapter.ReservaViewHolder>() {
@@ -17,6 +19,7 @@ class ReservasAdapter(private val clasesList: List<Clase>, private val context: 
         return ReservaViewHolder(view)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: ReservasAdapter.ReservaViewHolder, position: Int) {
         val clase = clasesList[position]
         holder.tituloTextView.text = clase.titulo
@@ -24,6 +27,13 @@ class ReservasAdapter(private val clasesList: List<Clase>, private val context: 
         holder.fechaInicioTextView.text = "Fecha de inicio: " + clase.fecha_inicio
         holder.fechaFinTextView.text = "Fecha de fin: " + clase.fecha_fin
         holder.precioTextView.text = clase.precio + "€"
+
+        holder.btnDesinscribirse.isEnabled = clase.booked
+                holder.btnDesinscribirse.setOnClickListener {
+                    if (context is ReservasActivity) {
+                        context.desinscribirseClase(clase.codigo, position)
+                    }
+                }
     }
 
     override fun getItemCount(): Int {
@@ -36,6 +46,6 @@ class ReservasAdapter(private val clasesList: List<Clase>, private val context: 
         val fechaInicioTextView: TextView = itemView.findViewById(R.id.fechaInicio)
         val fechaFinTextView: TextView = itemView.findViewById(R.id.fechaFin)
         val precioTextView: TextView = itemView.findViewById(R.id.info_precio_curso)
-        val btnInscribirse: Button = itemView.findViewById(R.id.btnInscribirse)
+        val btnDesinscribirse: TextView = itemView.findViewById(R.id.btnDesinscribirse)
     }
 }
