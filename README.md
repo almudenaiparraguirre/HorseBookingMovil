@@ -1,7 +1,7 @@
 **TFG - PROYECTO FINAL DESARROLLO DE APLICACIONES MULTIPLATAFORMA(DAM)**
 
 **HorseBooking**
-HorseBooking es una aplicación móvil diseñada para facilitar la reserva de servicios relacionados con caballos, como clases de equitación, paseos a caballo, cuidado de caballos, entre otros. La aplicación está desarrollada en Android y utiliza Firebase como plataforma backend para la autenticación de usuarios y el almacenamiento de datos en tiempo real.
+HorseBooking es una aplicación móvil diseñada para facilitar la reserva de clases de una escuela de equitacion. Esta app permite a los usuarios elegir una clase en concreto en un dia concreto y apuntarse a ella, también es una app con la opcion de mostrar las novedades y actualizaciones de la hipica. La aplicación está desarrollada en Android y utiliza Firebase como plataforma backend para la autenticación de usuarios y el almacenamiento de datos en tiempo real.
 
 **Características principales**
 Autenticación de usuarios: Los usuarios pueden crear cuentas y acceder a la aplicación utilizando su correo electrónico y contraseña.
@@ -20,6 +20,6 @@ Conecta la aplicación a tu proyecto Firebase siguiendo las instrucciones de Fir
 Compila y ejecuta la aplicación en tu dispositivo o emulador Android.
 
 **Tecnologías utilizadas**
-Android: Desarrollo de la aplicación móvil utilizando el SDK de Android y el lenguaje de programación Kotlin.
-Firebase: Plataforma backend utilizada para la autenticación de usuarios, almacenamiento de datos en tiempo real y notificaciones push.
-Material Design: Diseño de interfaz de usuario siguiendo las directrices de Material Design de Google.
+**Android**: Desarrollo de la aplicación móvil utilizando el SDK de Android y el lenguaje de programación Kotlin.
+**Firebase**: Plataforma backend utilizada para la autenticación de usuarios, almacenamiento de datos en tiempo real y notificaciones push.
+**Material Design**: Diseño de interfaz de usuario siguiendo las directrices de Material Design de Google.
