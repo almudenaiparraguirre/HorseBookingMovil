@@ -28,7 +28,6 @@ class ReservasAdapter(private val clasesList: List<Clase>, private val context: 
         holder.fechaFinTextView.text = "Fecha de fin: " + clase.fecha_fin
         holder.precioTextView.text = clase.precio + "€"
 
-        holder.btnDesinscribirse.isEnabled = clase.booked
                 holder.btnDesinscribirse.setOnClickListener {
                     if (context is ReservasActivity) {
                         context.desinscribirseClase(clase.codigo, position)

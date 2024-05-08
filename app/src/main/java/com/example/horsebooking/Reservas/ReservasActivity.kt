@@ -52,20 +52,24 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener 
     }
 
     fun desinscribirseClase(claseId: String, position: Int) {
-        val userId = FirebaseAuth.getInstance().currentUser?.email
-        if (userId != null) {
-            val reservaRef = FirebaseDatabase.getInstance().getReference("usuarios/$userId/reservas/$claseId")
-            reservaRef.removeValue().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    bookedClassesList.removeAt(position)
-                    clasesAdapter.notifyItemRemoved(position)
-                    Toast.makeText(this, "Desinscripción exitosa", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Error al desinscribirse", Toast.LENGTH_SHORT).show()
+        val clase = bookedClassesList[position]
+        if (clase.booked) {
+            val userId = FirebaseAuth.getInstance().currentUser?.email ?: return
+            val claseId = clase.codigo  // Asegúrate de que cada clase tiene un identificador único
+            val reservaPath = "usuarios/${userId.replace(".", ",")}/reservas/$claseId"
+
+            // Eliminar la reserva de la base de datos
+            FirebaseDatabase.getInstance().reference.child(reservaPath).removeValue()
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Desinscrito de: ${clase.titulo}", Toast.LENGTH_SHORT).show()
+                    clase.booked = false
+                    clasesAdapter.notifyItemChanged(position)
                 }
-            }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Error al desinscribir de la clase", Toast.LENGTH_SHORT).show()
+                }
         } else {
-            Toast.makeText(this, "Usuario no identificado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "No estás inscrito en esta clase", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -118,6 +122,7 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener 
             override fun onDataChange(snapshot: DataSnapshot) {
                 val clase = snapshot.getValue(Clase::class.java)
                 if (clase != null) {
+                    clase.booked = true  // Asegúrate de establecer 'booked' a true cuando recuperas la clase reservada
                     bookedClassesList.add(clase)
                     runOnUiThread {
                         clasesAdapter.notifyDataSetChanged()
@@ -126,11 +131,10 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener 
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle error
+                Log.e("ReservasActivity", "Failed to fetch class details: ${error.message}")
             }
         })
     }
-
 
     private fun setupBottomNavigationView() {
         bottomNavigationView = findViewById(R.id.bottom_navigation_reservas)
