@@ -1,5 +1,6 @@
 package com.example.horsebooking.Clases
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -17,20 +18,18 @@ class ClasesAdapter(private val clasesList: List<Clase>, private val context: Co
         return ClaseViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ClaseViewHolder, position: Int) {
         val clase = clasesList[position]
         holder.tituloTextView.text = clase.titulo
         holder.tipoClaseTextView.text = "Disciplina: " + clase.tipo
         holder.fechaInicioTextView.text = "Fecha de inicio: " + clase.fecha_inicio
         holder.fechaFinTextView.text = "Fecha de fin: " + clase.fecha_fin
-        holder.precioTextView.text = clase.precio + "€"
+        holder.precioTextView.text = clase.precio.toString() + "€"
 
         if (clase.booked) {
             holder.btnInscribirse.isEnabled = false
             holder.btnInscribirse.text = "Inscrito"
-        } else {
-            holder.btnInscribirse.isEnabled = true
-            holder.btnInscribirse.text = "Inscribirse"
         }
     }
 

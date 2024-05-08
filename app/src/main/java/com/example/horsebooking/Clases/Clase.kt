@@ -6,7 +6,7 @@ class Clase {
     var codigo: String = ""
     var titulo: String = ""
     var descripcion: String = ""
-    var precio: String = ""
+    var precio: Long = 0
     var tipo: String = ""
     var fecha_inicio: String? = null
     var fecha_fin: String? = null
@@ -21,13 +21,13 @@ class Clase {
         this.titulo = ""
         this.fecha_inicio = null
         this.fecha_fin = null
-        this.precio = ""
+        this.precio = 0
         this.descripcion = ""
         this.tipo = ""
         this.booked = false
     }
 
-    constructor(codigo: String, titulo: String, fechaInicio: String?, fechaFin: String?, precio: String, descripcion: String, tipo: String, booked: Boolean) {
+    constructor(codigo: String, titulo: String, fechaInicio: String?, fechaFin: String?, precio: Long, descripcion: String, tipo: String, booked: Boolean) {
         this.codigo = codigo
         this.titulo = titulo
         this.fecha_inicio = fecha_inicio

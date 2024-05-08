@@ -22,16 +22,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener {
+class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener,
+    ReservasAdapter.OnItemClickListener {
 
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var recyclerView: RecyclerView
     private lateinit var clasesAdapter: ReservasAdapter
-    private lateinit var database: DatabaseReference
     private val bookedClassesList = mutableListOf<Clase>()
     private lateinit var auth: FirebaseAuth
 
@@ -47,69 +46,55 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener 
     private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.recyclerViewReservas)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        clasesAdapter = ReservasAdapter(bookedClassesList, this) // Cambio aquí
+        clasesAdapter = ReservasAdapter(bookedClassesList, this, this)
         recyclerView.adapter = clasesAdapter
     }
 
-    fun desinscribirseClase(claseId: String, position: Int) {
-        val clase = bookedClassesList[position]
-        if (clase.booked) {
-            val userId = FirebaseAuth.getInstance().currentUser?.email ?: return
-            val claseId = clase.codigo  // Asegúrate de que cada clase tiene un identificador único
-            val reservaPath = "usuarios/${userId.replace(".", ",")}/reservas/$claseId"
+    fun desinscribirseClase(clase: Clase) {
+        val userEmail = FirebaseAuth.getInstance().currentUser?.email?.replace(".", ",") ?: return
+        val claseId = clase.codigo
+        val reservaPath = "usuarios/$userEmail/reservas/$claseId"
+        Log.d("Reserva path", reservaPath)
 
-            // Eliminar la reserva de la base de datos
-            FirebaseDatabase.getInstance().reference.child(reservaPath).removeValue()
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Desinscrito de: ${clase.titulo}", Toast.LENGTH_SHORT).show()
-                    clase.booked = false
-                    clasesAdapter.notifyItemChanged(position)
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Error al desinscribir de la clase", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(this, "No estás inscrito en esta clase", Toast.LENGTH_SHORT).show()
-        }
+        FirebaseDatabase.getInstance().reference.child(reservaPath).removeValue()
+            .addOnSuccessListener {
+                bookedClassesList.remove(clase)
+                //clasesAdapter.notifyItemRemoved(position)
+            }
+            .addOnFailureListener { exception ->
+                Log.e("ReservasActivity", "Error al desinscribir de la clase: ${exception.message}")
+                Toast.makeText(this, "Error al desinscribir de la clase", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun fetchBookedClasses() {
-        val userId = FirebaseDB.getInstanceFirebase().currentUser?.email
-        Log.d("ReservasActivity", "User ID: $userId")  // Log the user ID to verify it's not null
-        if (userId != null) {
-            val email = FirebaseDB.getInstanceFirebase().currentUser?.email
-            val formattedEmail = email?.replace(".", ",")
-            if (email != null) {
-                // Declarar reservationsRef fuera del bloque if
-                val reservationsRef = FirebaseDatabase.getInstance().getReference("usuarios").child(formattedEmail.toString()).child("reservas")
-                reservationsRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            Log.d("ReservasActivity", "Reservations found: ${snapshot.childrenCount}")  // Log how many reservations are found
-                            snapshot.children.forEach { child ->
-                                val reservation = child.getValue(Reservation::class.java)
-                                Log.d("ReservasActivity", "Reservation data for ${child.key}: $reservation")  // Log the details of each reservation
-                                if (reservation?.booked == true) {
-                                    fetchClassDetails(child.key!!)
-                                } else {
-                                    Log.d("ReservasActivity", "Class ${child.key} is not booked")
-                                }
+        val userEmail = FirebaseAuth.getInstance().currentUser?.email
+        Log.d("ReservasActivity", "User ID: $userEmail")
+        if (userEmail != null) {
+            val formattedEmail = userEmail.replace(".", ",")
+            val reservationsRef = FirebaseDatabase.getInstance().getReference("usuarios/$formattedEmail/reservas")
+            reservationsRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    bookedClassesList.clear()  // Clear the list to avoid duplicating entries
+                    if (snapshot.exists()) {
+                        Log.d("ReservasActivity", "Reservations found: ${snapshot.childrenCount}")
+                        snapshot.children.forEach { child ->
+                            val reservation = child.getValue(Reservation::class.java)
+                            if (reservation?.booked == true) {
+                                fetchClassDetails(child.key!!)
+                            } else {
+                                Log.d("ReservasActivity", "Class ${child.key} is not booked")
                             }
-                        } else {
-                            Log.d("ReservasActivity", "No reservations found for user: $userId")
-                            Toast.makeText(this@ReservasActivity, "No bookings found.", Toast.LENGTH_SHORT).show()
                         }
+                    } else {
+                        Toast.makeText(this@ReservasActivity, "No bookings found.", Toast.LENGTH_SHORT).show()
                     }
+                }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        Log.e("ReservasActivity", "Failed to fetch reservations: ${error.message}")
-                        Toast.makeText(this@ReservasActivity, "Error fetching data: ${error.message}", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            } else {
-                // Maneja el caso en que el correo electrónico sea nulo
-                Log.e("ReservasActivity", "Correo electrónico del usuario es nulo.")
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@ReservasActivity, "Error fetching data: ${error.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
         } else {
             Log.d("ReservasActivity", "No user ID found.")
         }
@@ -122,7 +107,8 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener 
             override fun onDataChange(snapshot: DataSnapshot) {
                 val clase = snapshot.getValue(Clase::class.java)
                 if (clase != null) {
-                    clase.booked = true  // Asegúrate de establecer 'booked' a true cuando recuperas la clase reservada
+                    clase.booked = true
+                    clase.codigo = snapshot.key ?: ""
                     bookedClassesList.add(clase)
                     runOnUiThread {
                         clasesAdapter.notifyDataSetChanged()
@@ -175,5 +161,8 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener 
 
     override fun onInscribirseClicked(position: Int) {
         TODO("Not yet implemented")
+    }
+    override fun onDesinscribirseClicked(clase: Clase) {
+        desinscribirseClase(clase)
     }
 }
