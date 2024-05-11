@@ -14,4 +14,7 @@
     <string name="chatear">¡Chatea con nosotros!</string>
     <string name="cambiarDatos">Cambiar datos</string>
     <string name="cerrarSesion"><u>Cerrar sesión</u></string>
+    <string name="novedades">¡Averigua las novedades en nuestra hípica!</string>
+    <string name="username_hint">Usuario</string>
+    <string name="email_hint">Email</string>
 </resources>

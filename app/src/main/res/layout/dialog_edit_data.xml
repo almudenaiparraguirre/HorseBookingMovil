@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- EditText para Nombre de Usuario -->
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/username_hint"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:singleLine="true"/>
+
+    <!-- Espacio adicional entre EditTexts -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp"/>
+
+    <!-- EditText para Correo Electrónico -->
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email_hint"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:singleLine="true"/>
+
+</LinearLayout>

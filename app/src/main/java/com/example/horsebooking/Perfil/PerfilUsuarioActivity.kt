@@ -1,5 +1,6 @@
 package com.example.horsebooking.Perfil
 
+import EditDataDialogFragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -21,6 +22,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.horsebooking.Clases.ClasesActivity
@@ -32,17 +34,14 @@ import com.example.horsebooking.SinCuenta.IniciarSesionActivity
 import com.google.android.gms.tasks.Tasks
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+
 
 class PerfilUsuarioActivity : AppCompatActivity() {
 
@@ -478,7 +477,7 @@ class PerfilUsuarioActivity : AppCompatActivity() {
      * los datos de la cuenta
      * @param view */
     fun cambiarDatos(view: View){
-
+        showEditDialog()
     }
 
     /** @author Almudena Iparraguirre Castillo
@@ -489,5 +488,10 @@ class PerfilUsuarioActivity : AppCompatActivity() {
         val intent = Intent(this@PerfilUsuarioActivity, IniciarSesionActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    fun showEditDialog() {
+        val dialog: DialogFragment = EditDataDialogFragment()
+        dialog.show(supportFragmentManager, "EditDataDialogFragment")
     }
 }

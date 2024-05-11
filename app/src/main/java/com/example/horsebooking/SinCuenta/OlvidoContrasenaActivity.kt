@@ -70,31 +70,14 @@ class OlvidoContrasenaActivity : AppCompatActivity() {
     }
 
     /**
-     * Método llamado al hacer clic en el botón para enviar el correo electrónico.
-     */
-    fun enviarEmail(view: View) {
-        val emailText = email.text.toString().trim()
-
-        if (emailText.isEmpty()) {
-            textoAdvertencia.visibility = View.VISIBLE
-            Log.d("RestableceContrasena", "No se puede enviar el correo porque el email está vacío")
-        } else if (!isValidEmail(emailText)) {
-            textoAdvertencia.visibility = View.VISIBLE
-            Log.d("RestableceContrasena", "Formato de correo electrónico no válido")
-        } else {
-            textoAdvertencia.visibility = View.GONE
-            val intent = Intent(this, EnvioCodigoActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
-    /**
      * Método para comprobar que el email introducido es válido.
      * @param email Valida el email
      * @return true si el email es válido, false de lo contrario.
      */
-    private fun isValidEmail(email: String): Boolean {
-        val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
-        return email.matches(emailPattern.toRegex())
+    companion object {
+        fun isValidEmail(email: String): Boolean {
+            val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+            return email.matches(emailPattern.toRegex())
+        }
     }
 }
