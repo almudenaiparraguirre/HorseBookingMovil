@@ -1,6 +1,7 @@
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,27 +13,39 @@ import com.example.horsebooking.R
 
 
 class EditDataDialogFragment : DialogFragment() {
-    @SuppressLint("MissingInflatedId")
+    var listener: EditDataListener? = null
+
     @NonNull
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(getActivity())
-        val inflater: LayoutInflater = requireActivity().getLayoutInflater()
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
+        val inflater: LayoutInflater = requireActivity().layoutInflater
         val view: View = inflater.inflate(R.layout.dialog_edit_data, null)
 
-        // Configura los campos de texto y botones aquí, por ejemplo:
         val editTextUsername: EditText = view.findViewById(R.id.editTextUsername)
         val editTextEmail: EditText = view.findViewById(R.id.editTextEmail)
+
         builder.setView(view)
-            .setPositiveButton("Guardar", DialogInterface.OnClickListener { dialog, id ->
-                // Aquí manejas la acción de guardar
-                val username = editTextUsername.text.toString()
+            .setPositiveButton("Guardar") { dialog, id ->
+                val nombre = editTextUsername.text.toString()
                 val email = editTextEmail.text.toString()
-                // Puedes pasar estos valores a la actividad a través de un método
-            })
-            .setNegativeButton("Cancelar",
-                DialogInterface.OnClickListener { dialog, id ->
-                    this@EditDataDialogFragment.getDialog()?.cancel()
-                })
+                listener?.onUpdateData(nombre, email)
+            }
+            .setNegativeButton("Cancelar") { dialog, id ->
+                dialog?.cancel()
+            }
         return builder.create()
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            listener = context as EditDataListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException("$context must implement EditDataListener")
+        }
+    }
+}
+
+interface EditDataListener {
+    fun onUpdateData(username: String, email: String)
 }

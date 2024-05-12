@@ -7,7 +7,7 @@
         android:iconTint="@color/fondoBoton"/>
     <item
         android:id="@+id/menu_precios"
-        android:title="Precios"
+        android:title="Clases"
         android:icon="@drawable/baseline_price_check_24"
         android:iconTint="@color/fondoBoton"/>
     <item

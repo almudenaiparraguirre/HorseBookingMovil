@@ -1,17 +1,20 @@
 package com.example.horsebooking.Perfil
 
 import EditDataDialogFragment
+import EditDataListener
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
@@ -33,8 +36,11 @@ import com.example.horsebooking.SinCuenta.FirebaseDB
 import com.example.horsebooking.SinCuenta.IniciarSesionActivity
 import com.google.android.gms.tasks.Tasks
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.database
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,7 +49,7 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
 
-class PerfilUsuarioActivity : AppCompatActivity() {
+class PerfilUsuarioActivity : AppCompatActivity(), EditDataListener {
 
     private val REQUEST_CAMERA = 123
     private lateinit var bottomNavigationView: BottomNavigationView
@@ -468,7 +474,7 @@ class PerfilUsuarioActivity : AppCompatActivity() {
      * Función que redirige a la ventana de chat con los trabajadores
      * de la hípica
      * @param view */
-    fun chateaConNosotros(view: View){
+    fun chateaConNosotros(view:View){
 
     }
 
@@ -493,5 +499,88 @@ class PerfilUsuarioActivity : AppCompatActivity() {
     fun showEditDialog() {
         val dialog: DialogFragment = EditDataDialogFragment()
         dialog.show(supportFragmentManager, "EditDataDialogFragment")
+    }
+
+    override fun onUpdateData(username: String, email: String) {
+        FirebaseDB.getInstanceFirebase().currentUser?.email?.let { updateDataInDatabase(it.replace(".",","), username, email) }
+        updateEmailAndId(email.replace(".",","))
+    }
+
+    private fun updateDataInDatabase(userId: String, nombre: String, email: String) {
+        if (userId.isEmpty()) {
+            println("El ID del usuario es inválido.")
+            return
+        }
+
+        val database = FirebaseDatabase.getInstance()
+        val userRef = database.getReference("usuarios/$userId")
+
+        val updates = hashMapOf<String, Any>()
+        if (nombre.isNotEmpty()) {
+            updates["nombre"] = nombre
+        }
+        if (email.isNotEmpty()) {
+            updates["email"] = email
+        }
+
+        if (updates.isNotEmpty()) {
+            userRef.updateChildren(updates).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    println("Datos actualizados correctamente.")
+                } else {
+                    task.exception?.message?.let { error ->
+                        println("Error al actualizar datos: $error")
+                    }
+                }
+            }
+        } else {
+            println("No hay datos para actualizar.")
+        }
+    }
+
+    private fun updateEmailAndId(newEmail: String) {
+        val user = Firebase.auth.currentUser
+        Log.d("USER", user.toString())
+        user?.updateEmail(newEmail)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val database = Firebase.database
+                    val userRef = database.getReference("usuarios/${user.uid}")
+
+                    // Actualiza el correo electrónico en la base de datos
+                    userRef.setValue(hashMapOf("email" to newEmail))
+                        .addOnSuccessListener {
+                            Log.d(TAG, "ID de usuario actualizado")
+                        }
+                        .addOnFailureListener {
+                            Log.e(TAG, "Error al actualizar el ID de usuario")
+                        }
+
+                    // Crea un nuevo nodo con el nuevo ID de usuario
+                    val newUid = "nuevo_id_del_usuario"
+                    val newUserRef = database.getReference("usuarios/$newUid")
+
+                    // Obtiene los datos del usuario actual
+                    userRef.get().addOnSuccessListener { snapshot ->
+                        if (snapshot.exists()) {
+                            val userData = snapshot.value as? HashMap<String, Any>
+                            if (userData != null) {
+                                // Copia los datos al nuevo nodo
+                                newUserRef.setValue(userData)
+                                    .addOnSuccessListener {
+                                        // Elimina el nodo anterior
+                                        userRef.removeValue()
+                                        Log.d(TAG, "Datos de usuario actualizados")
+                                    }
+                                    .addOnFailureListener {
+                                        Log.e(TAG, "Error al copiar los datos del usuario")
+                                    }
+                            }
+                        }
+                    }
+                } else {
+                    Log.e(TAG, "Error al actualizar el correo electrónico")
+                }
+            }
     }
 }
