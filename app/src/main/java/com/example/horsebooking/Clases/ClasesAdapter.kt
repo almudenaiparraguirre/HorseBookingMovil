@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.horsebooking.R
+import com.google.firebase.storage.FirebaseStorage
 
 class ClasesAdapter(private val clasesList: List<Clase>, private val context: Context, private val listener: OnItemClickListener) :
     RecyclerView.Adapter<ClasesAdapter.ClaseViewHolder>() {
+    private val storageReference = FirebaseStorage.getInstance().reference
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClaseViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.clase_item, parent, false)
@@ -33,6 +37,15 @@ class ClasesAdapter(private val clasesList: List<Clase>, private val context: Co
             holder.btnInscribirse.isEnabled = false
             holder.btnInscribirse.text = "Inscrito"
         }
+
+        val imageRef = storageReference.child("imagenesClases/${clase.id}.png")
+
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            Glide.with(context)
+                .load(uri)
+                .placeholder(R.mipmap.img_logo)
+                .into(holder.imagenClase)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -40,6 +53,7 @@ class ClasesAdapter(private val clasesList: List<Clase>, private val context: Co
     }
 
     inner class ClaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var imagenClase: ImageView = itemView.findViewById(R.id.imagenClase)
         val tituloTextView: TextView = itemView.findViewById(R.id.tituloCurso)
         val tipoClaseTextView: TextView = itemView.findViewById(R.id.tipoClase)
         val fechaInicioTextView: TextView = itemView.findViewById(R.id.fechaInicio)

@@ -81,6 +81,7 @@ class PerfilUsuarioActivity : AppCompatActivity(), EditDataListener {
         telefonoUsuario = findViewById(R.id.telefono_usuario)
         direccionUsuario = findViewById(R.id.direccion_usuario)
         auth = FirebaseDB.getInstanceFirebase()
+        cargarImagenPerfil()
 
         val email = FirebaseDB.getInstanceFirebase().currentUser?.email?.replace(".", ",")
         if (email != null) {
@@ -104,13 +105,6 @@ class PerfilUsuarioActivity : AppCompatActivity(), EditDataListener {
         } else {
             Toast.makeText(this@PerfilUsuarioActivity, "Id nulo", Toast.LENGTH_SHORT).show()
         }
-
-        val storageRef: StorageReference = FirebaseDB.getInstanceStorage().reference.child("imagenesPerfilGente").child("$userId.jpg")
-        val imagesRef = storageRef.child("imagenesPerfilGente/$userId.jpg")
-        println("Image URL: $imagesRef")
-        Glide.with(this)
-            .load(imagesRef)
-            .into(imagen)
 
         lifecycleScope.launch {
             downloadImage2()
@@ -193,6 +187,28 @@ class PerfilUsuarioActivity : AppCompatActivity(), EditDataListener {
             } catch (exception: Exception) {
                 println("Error al cargar la nueva imagen: ${exception.message}")
             }
+        }
+    }
+
+    private fun cargarImagenPerfil() {
+        val userId = FirebaseDB.getInstanceFirebase().currentUser?.uid
+        if (userId != null) {
+            val storageRef = FirebaseDB.getInstanceStorage().reference.child("imagenesPerfilGente/$userId.jpg")
+
+            // Obtener la URL de descarga
+            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                // Usar la URI con Glide
+                Glide.with(this)
+                    .load(uri.toString()) // Convertir la URI a String
+                    .into(imagen)
+            }.addOnFailureListener {
+                // Manejar el error, por ejemplo, usando una imagen predeterminada
+                Glide.with(this)
+                    .load(R.mipmap.img_logo)
+                    .into(imagen)
+            }
+        } else {
+            Toast.makeText(this, "Usuario no identificado", Toast.LENGTH_SHORT).show()
         }
     }
 
