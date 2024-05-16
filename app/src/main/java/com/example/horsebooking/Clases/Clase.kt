@@ -3,7 +3,7 @@ package com.example.horsebooking.Clases
 import java.util.Date
 
 class Clase {
-    var codigo: String = ""
+    var id: String = ""
     var titulo: String = ""
     var descripcion: String = ""
     var precio: Long = 0
@@ -15,11 +15,11 @@ class Clase {
     var booked: Boolean = false
 
     override fun toString(): String {
-        return "Clase(codigo='$codigo', titulo='$titulo', descripcion='$descripcion', precio='$precio', fechaInicio=$fecha_inicio, fechaFin=$fecha_fin, hora=$hora, minutos=$minuto, booked=$booked)"
+        return "Clase(id='$id', titulo='$titulo', descripcion='$descripcion', precio='$precio', fechaInicio=$fecha_inicio, fechaFin=$fecha_fin, hora=$hora, minutos=$minuto, booked=$booked)"
     }
 
     constructor() {
-        this.codigo = ""
+        this.id = ""
         this.titulo = ""
         this.fecha_inicio = null
         this.fecha_fin = null
@@ -31,8 +31,8 @@ class Clase {
         this.booked = false
     }
 
-    constructor(codigo: String, titulo: String, fechaInicio: String?, fechaFin: String?, hora: Long, minuto: Long, precio: Long, descripcion: String, tipo: String, booked: Boolean) {
-        this.codigo = codigo
+    constructor(id: String, titulo: String, fechaInicio: String?, fechaFin: String?, hora: Long, minuto: Long, precio: Long, descripcion: String, tipo: String, booked: Boolean) {
+        this.id = id
         this.titulo = titulo
         this.fecha_inicio = fecha_inicio
         this.fecha_fin = fecha_fin

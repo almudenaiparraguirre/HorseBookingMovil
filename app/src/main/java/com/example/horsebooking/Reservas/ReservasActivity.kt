@@ -52,7 +52,7 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener,
 
     fun desinscribirseClase(clase: Clase) {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email?.replace(".", ",") ?: return
-        val claseId = clase.codigo
+        val claseId = clase.id
         val reservaPath = "usuarios/$userEmail/reservas/$claseId"
         Log.d("Reserva path", reservaPath)
 
@@ -75,24 +75,24 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener,
             val reservationsRef = FirebaseDatabase.getInstance().getReference("usuarios/$formattedEmail/reservas")
             reservationsRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    bookedClassesList.clear()  // Clear the list to avoid duplicating entries
+                    bookedClassesList.clear()
                     if (snapshot.exists()) {
-                        Log.d("ReservasActivity", "Reservations found: ${snapshot.childrenCount}")
+                        Log.d("ReservasActivity", "Reservas encontradas: ${snapshot.childrenCount}")
                         snapshot.children.forEach { child ->
                             val reservation = child.getValue(Reservation::class.java)
                             if (reservation?.booked == true) {
                                 fetchClassDetails(child.key!!)
                             } else {
-                                Log.d("ReservasActivity", "Class ${child.key} is not booked")
+                                Log.d("ReservasActivity", "La clase ${child.key} no está reservada")
                             }
                         }
                     } else {
-                        Toast.makeText(this@ReservasActivity, "No bookings found.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ReservasActivity, "No se han encontrado reservas", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@ReservasActivity, "Error fetching data: ${error.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ReservasActivity, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         } else {
@@ -108,7 +108,7 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener,
                 val clase = snapshot.getValue(Clase::class.java)
                 if (clase != null) {
                     clase.booked = true
-                    clase.codigo = snapshot.key ?: ""
+                    clase.id = snapshot.key ?: ""
                     bookedClassesList.add(clase)
                     runOnUiThread {
                         clasesAdapter.notifyDataSetChanged()

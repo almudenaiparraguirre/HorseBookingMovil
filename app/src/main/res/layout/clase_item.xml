@@ -37,10 +37,9 @@
 
                 <!-- imagen academia -->
                 <ImageView
-                    android:id="@+id/imagenAcademia"
+                    android:id="@+id/imagenClase"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:contentDescription="imagen_de_presentaci_n_de_la_academia"
                     android:src="@mipmap/img_logo"
                     android:layout_weight="3"
                     android:scaleType="centerCrop"/>

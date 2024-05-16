@@ -19,23 +19,23 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingHorizontal="10dp">
+            android:paddingHorizontal="10dp"
+            android:paddingTop="10dp">
 
             <LinearLayout
                 android:id="@+id/contenedorDatos"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="140dp"
                 android:orientation="horizontal"
                 android:weightSum="10">
 
                 <!-- imagen academia -->
                 <ImageView
-                    android:id="@+id/imagenAcademia"
+                    android:id="@+id/imagenClase"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:contentDescription="imagen_de_presentaci_n_de_la_academia"
                     android:src="@mipmap/img_logo"
                     android:layout_weight="3"
                     android:scaleType="centerCrop"/>
@@ -51,8 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
                         android:orientation="horizontal"
-                        android:weightSum="5"
-                        android:layout_marginBottom="5dp">
+                        android:weightSum="5">
                         <!-- título academia -->
                         <TextView
                             android:id="@+id/tituloCurso"
@@ -102,6 +101,19 @@
                             android:fontFamily="@font/inriasans_regular"
                             android:textSize="12sp"
                             android:textColor="@color/black"/>
+
+
+                        <TextView
+                            android:id="@+id/horaClase"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Hora: "
+                            android:fontFamily="@font/inriasans_regular"
+                            android:textSize="14sp"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
+                            android:layout_marginBottom="5dp"/>
+
                     </LinearLayout>
 
                     <!-- Course price -->

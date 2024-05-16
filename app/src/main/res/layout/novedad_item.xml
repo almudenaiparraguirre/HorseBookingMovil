@@ -38,7 +38,6 @@
                     android:id="@+id/imagenNovedad"
                     android:layout_width="10dp"
                     android:layout_height="100dp"
-                    android:contentDescription="imagen_de_presentaci_n_de_la_academia"
                     android:src="@mipmap/img_logo"
                     android:layout_weight="3"
                     android:scaleType="centerCrop"/>

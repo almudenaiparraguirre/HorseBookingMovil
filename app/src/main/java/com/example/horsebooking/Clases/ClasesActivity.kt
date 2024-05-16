@@ -56,9 +56,9 @@ class ClasesActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener {
                 val userId = FirebaseAuth.getInstance().currentUser?.uid
                 for (claseSnapshot in snapshot.children) {
                     val clase = claseSnapshot.getValue(Clase::class.java)?.apply {
-                        codigo = claseSnapshot.key ?: ""
+                        id = claseSnapshot.key ?: ""
                         // Asignar el estado de reserva basado en otra consulta a las reservas del usuario
-                        booked = snapshot.child("usuarios/$userId/reservas/$codigo/booked").getValue(Boolean::class.java) ?: false
+                        booked = snapshot.child("usuarios/$userId/reservas/$id/booked").getValue(Boolean::class.java) ?: false
                     }
                     if (clase != null) {
                         clasesList.add(clase)
@@ -123,7 +123,7 @@ class ClasesActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener {
         val clase = clasesList[position]
         if (!clase.booked) {
             val userId = FirebaseAuth.getInstance().currentUser?.email ?: return
-            val claseId = clase.codigo  // Asegúrate de que cada clase tiene un identificador único
+            val claseId = clase.id  // Asegúrate de que cada clase tiene un identificador único
             val reservaPath = "usuarios/${userId.replace(".", ",")}/reservas/$claseId"
             val reservaInfo = mapOf("booked" to true, "dateBooked" to getCurrentDate())
 
