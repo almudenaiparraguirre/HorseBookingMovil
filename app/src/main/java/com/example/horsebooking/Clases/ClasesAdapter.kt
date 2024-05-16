@@ -25,6 +25,8 @@ class ClasesAdapter(private val clasesList: List<Clase>, private val context: Co
         holder.tipoClaseTextView.text = "Disciplina: " + clase.tipo
         holder.fechaInicioTextView.text = "Fecha de inicio: " + clase.fecha_inicio
         holder.fechaFinTextView.text = "Fecha de fin: " + clase.fecha_fin
+        holder.horaClaseTextView.text = "Hora clase: " + clase.hora + ":" + clase.minuto
+
         holder.precioTextView.text = clase.precio.toString() + "€"
 
         if (clase.booked) {
@@ -42,6 +44,7 @@ class ClasesAdapter(private val clasesList: List<Clase>, private val context: Co
         val tipoClaseTextView: TextView = itemView.findViewById(R.id.tipoClase)
         val fechaInicioTextView: TextView = itemView.findViewById(R.id.fechaInicio)
         val fechaFinTextView: TextView = itemView.findViewById(R.id.fechaFin)
+        val horaClaseTextView: TextView = itemView.findViewById(R.id.horaClase)
         val precioTextView: TextView = itemView.findViewById(R.id.info_precio_curso)
         val btnInscribirse: Button = itemView.findViewById(R.id.btnInscribirse)
         init {

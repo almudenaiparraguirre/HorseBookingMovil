@@ -131,18 +131,24 @@ class ReservasActivity : AppCompatActivity(), ClasesAdapter.OnItemClickListener,
     private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.menu_novedades -> {
-                startActivity(Intent(this@ReservasActivity, NovedadesActivity::class.java))
+                startActivity(Intent(this@ReservasActivity, NovedadesActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                finish()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.menu_reservas -> {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.menu_precios -> {
-                startActivity(Intent(this@ReservasActivity, ClasesActivity::class.java))
+                startActivity(Intent(this@ReservasActivity, ClasesActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                finish()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.menu_perfil -> {
-                startActivity(Intent(this@ReservasActivity, PerfilUsuarioActivity::class.java))
+                startActivity(Intent(this@ReservasActivity, PerfilUsuarioActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                finish()
                 return@OnNavigationItemSelectedListener true
             }
         }
